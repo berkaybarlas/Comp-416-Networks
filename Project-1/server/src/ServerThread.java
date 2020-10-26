@@ -30,7 +30,7 @@ class ServerThread extends Thread
         try
         {
             is = new BufferedReader(new InputStreamReader(s.getInputStream()));
-            os = new PrintWriter("Thread ID replies : " + Thread.currentThread().getId() + "    " +  s.getOutputStream());
+            os = new PrintWriter(s.getOutputStream());
 
         }
         catch (IOException e)
@@ -43,7 +43,7 @@ class ServerThread extends Thread
             line = is.readLine();
             while (line.compareTo("QUIT") != 0)
             {
-		lines = "Client messaged : " + line + " at  : " + Thread.currentThread().getId();
+		        lines = "Client messaged : " + line + " at  : " + Thread.currentThread().getId();
                 os.println(lines);
                 os.flush();
                 System.out.println("Client " + s.getRemoteSocketAddress() + " sent :  " + lines);
