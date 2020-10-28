@@ -73,7 +73,9 @@ public class ConnectionToServer
             /*
             Reads a line from the server via Buffer Reader
              */
+            System.out.println("response" + response);
             response = is.readLine();
+            System.out.println("response2" + response);
         }
         catch(IOException e)
         {
