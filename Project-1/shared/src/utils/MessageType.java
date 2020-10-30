@@ -8,9 +8,18 @@ public enum MessageType {
     /** Authentication failed */
     AUTH_FAIL(2),
     /** Authentication successfull */
-    AUTH_SUCCESS(3);
+    AUTH_SUCCESS(3),
+    API_REQUEST(4),
+    API_RESPONSE(5),
+    API_REQUEST_DATA(6),
+    API_DATA_HASH(7);
 
-    public final int value;
+    public int value;
+
+    @Override
+    public String toString() {
+        return "" + value;
+    }
 
     private MessageType(int value) {
         this.value = value;

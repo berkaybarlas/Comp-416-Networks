@@ -57,10 +57,20 @@ class ServerThread extends Thread
 		        lines = "Client messaged : " + message.payload + " at  : " + Thread.currentThread().getId();
 
                 System.out.println("Client " + s.getRemoteSocketAddress() + " sent :  " + lines);
-                if (message.type == MessageType.AUTH_REQUEST.value) {
-                    sendMessageToClient(MessageType.AUTH_CHALLANGE, "Question");
-                } else {
-                    sendMessageToClient(MessageType.AUTH_SUCCESS, "Question");
+                switch (MessageType.valueOf("" + message.type)){
+                    case AUTH_REQUEST:
+                        sendMessageToClient(MessageType.AUTH_SUCCESS, "Success");
+                        break;
+                    case API_REQUEST:
+                        sendMessageToClient(MessageType.API_RESPONSE, "Success");
+                        break;
+                    case API_REQUEST_DATA:
+                        String clientID = message.payload;
+                        dataServerThread.getDSThread(clientID);
+                        sendMessageToClient(MessageType.API_DATA_HASH, "HASH");
+                        break;
+                    default:
+                        sendMessageToClient(MessageType.AUTH_CHALLANGE, "Question");
                 }
 
                 is.read(data);

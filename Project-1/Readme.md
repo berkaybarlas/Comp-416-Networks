@@ -27,12 +27,12 @@ Auth_Success 3      Token (String)
  
 ## Server-Client Protocol
 
-| Message type   |      Value      |  Payload |
-|----------|:-------------:|------:|
-| Api_Request |  0 |  + Token (String) |
-| Api_Response |  1 |  |
-| Api_Response_Data |  2 |  |
-| Api_Response_Hash |  3 |  |
+| Message type   |      Value      |Token|  Payload |
+|----------|:-------------:|------:|------:|
+| Api_Request |  4 | Token (String) | |
+| Api_Response |  5 | - | Status, Data Type |
+| Api_Request_Data |  6 | Token (String) | Socket Identifier |
+| Api_Data_Hash |  7 |  - | Data Hash |
 
 ## OWM API metrics:
 1. Current weather forecast

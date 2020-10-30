@@ -6,6 +6,8 @@ import java.io.*;
 public class DataClient extends BaseClient {
     public static final int DEFAULT_DATA_SERVER_PORT = 4545;
 
+    public String clientIdentifier;
+
     public DataClient()
     {
         this(DEFAULT_SERVER_ADDRESS, DEFAULT_DATA_SERVER_PORT);
@@ -28,9 +30,8 @@ public class DataClient extends BaseClient {
             // TODO: Update writer and readers
             // single directional no need for writer
             is = new DataInputStream(s.getInputStream());
-            os = new DataOutputStream(s.getOutputStream());
-            //is = new BufferedReader(new InputStreamReader(s.getInputStream()));
-            // os = new PrintWriter(s.getOutputStream());
+            // os = new DataOutputStream(s.getOutputStream());
+            clientIdentifier = "" + s.getLocalSocketAddress();
 
             System.out.println("Successfully connected to " + serverAddress + " on port " + serverPort
                     + " with local address" + s.getLocalSocketAddress());
