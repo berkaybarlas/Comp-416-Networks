@@ -1,3 +1,8 @@
+
+
+import utils.MessageProtocol;
+import utils.MessageType;
+
 import java.util.Scanner;
 
 public class ClientMain
@@ -5,15 +10,24 @@ public class ClientMain
     public static void main(String args[])
     {
         ConnectionToServer connectionToServer = new ConnectionToServer(ConnectionToServer.DEFAULT_SERVER_ADDRESS, ConnectionToServer.DEFAULT_SERVER_PORT);
-        connectionToServer.Connect();
+        connectionToServer.connect();
+
+        DataClient dataClient = null;
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter a message for the echo");
-        String message = scanner.nextLine();
-        while (!message.equals("QUIT"))
+        String textMessage = scanner.nextLine();
+
+        while (!textMessage.equals("QUIT"))
         {
-            System.out.println("Response from server: " + connectionToServer.SendForAnswer(message));
-            message = scanner.nextLine();
+            MessageProtocol message = new MessageProtocol(MessageType.AUTH_REQUEST.value, textMessage);
+            MessageProtocol serverMessage = connectionToServer.sendForAnswer(message);
+            System.out.println("Response from server: " + serverMessage.payload);
+            if (serverMessage.type == MessageType.AUTH_SUCCESS.value) {
+                dataClient = new DataClient();
+                dataClient.connect();
+            }
+            textMessage = scanner.nextLine();
         }
-        connectionToServer.Disconnect();
+        connectionToServer.disconnect();
     }
 }

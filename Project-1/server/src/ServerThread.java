@@ -1,14 +1,19 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import data.DataServer;
+import utils.MessageProtocol;
+import utils.MessageType;
+
+import java.io.*;
 import java.net.Socket;
 
 class ServerThread extends Thread
 {
-    protected BufferedReader is;
-    protected PrintWriter os;
+    // Timeout time in millisecond
+    private final int TIME_OUT = 10000;
+    protected DataInputStream is;
+    protected DataOutputStream os;
     protected Socket s;
+    private DataServer dataServerThread;
+    private MessageProtocol message;
     private String line = new String();
     private String lines = new String();
 
@@ -29,8 +34,8 @@ class ServerThread extends Thread
     {
         try
         {
-            is = new BufferedReader(new InputStreamReader(s.getInputStream()));
-            os = new PrintWriter(s.getOutputStream());
+            is = new DataInputStream(s.getInputStream());
+            os = new DataOutputStream(s.getOutputStream());
 
         }
         catch (IOException e)
@@ -40,16 +45,26 @@ class ServerThread extends Thread
 
         try
         {
-            line = is.readLine();
-            while (line.compareTo("QUIT") != 0)
+            byte[] data = new byte[MessageProtocol.MAX_BYTE_SIZE];
+            is.read(data);
+            message = new MessageProtocol(data);
+            while (message.payload.compareTo("QUIT") != 0)
             {
-		        lines = "Client messaged : " + line + " at  : " + Thread.currentThread().getId();
-                os.println(lines);
-                os.flush();
+                // TODO: IMPLEMENT AUTHENTICATION
+                // TODO: DATA COMMUNICATION
+                // TODO: TIMEOUT
+                // TODO: WHETHER API
+		        lines = "Client messaged : " + message.payload + " at  : " + Thread.currentThread().getId();
+
                 System.out.println("Client " + s.getRemoteSocketAddress() + " sent :  " + lines);
-                os.println(lines);
-                os.flush();
-                line = is.readLine();
+                if (message.type == MessageType.AUTH_REQUEST.value) {
+                    sendMessageToClient(MessageType.AUTH_CHALLANGE, "Question");
+                } else {
+                    sendMessageToClient(MessageType.AUTH_SUCCESS, "Question");
+                }
+
+                is.read(data);
+                message = new MessageProtocol(data);
             }
         }
         catch (IOException e)
@@ -63,31 +78,47 @@ class ServerThread extends Thread
             System.err.println("Server Thread. Run.Client " + line + " Closed");
         } finally
         {
-            try
-            {
-                System.out.println("Closing the connection");
-                if (is != null)
-                {
-                    is.close();
-                    System.err.println(" Socket Input Stream Closed");
-                }
-
-                if (os != null)
-                {
-                    os.close();
-                    System.err.println("Socket Out Closed");
-                }
-                if (s != null)
-                {
-                    s.close();
-                    System.err.println("Socket Closed");
-                }
-
-            }
-            catch (IOException ie)
-            {
-                System.err.println("Socket Close Error");
-            }
+            closeThreadAndSocket();
         }//end finally
+    }
+
+    /**
+     * The function to send a string message to the client
+     *
+     * @param str the string to be sent as message
+     */
+    private void sendMessageToClient(MessageType type, String str) throws IOException{
+        MessageProtocol message = new MessageProtocol(type.value, str);
+        System.out.println("sendMessageToClient: " + str);
+        os.write(message.getByteMessage());
+        os.flush();
+    }
+
+    private void closeThreadAndSocket() {
+        try
+        {
+            System.out.println("Closing the connection");
+            if (is != null)
+            {
+                is.close();
+                System.err.println(" Socket Input Stream Closed");
+            }
+
+            if (os != null)
+            {
+                os.close();
+                System.err.println("Socket Out Closed");
+            }
+            if (s != null)
+            {
+                s.close();
+                System.err.println("Socket Closed");
+            }
+
+        }
+        catch (IOException ie)
+        {
+            System.err.println("Socket Close Error");
+        }
     }
 }

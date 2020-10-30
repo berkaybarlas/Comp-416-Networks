@@ -1,24 +1,17 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import models.BaseClient;
+import utils.MessageProtocol;
+
+import java.io.*;
 import java.net.Socket;
 
 /**
  * Created by Yahya Hassanzadeh on 20/09/2017.
  */
 
-public class ConnectionToServer
+public class ConnectionToServer extends BaseClient
 {
-    public static final String DEFAULT_SERVER_ADDRESS = "localhost";
     public static final int DEFAULT_SERVER_PORT = 4444;
-    private Socket s;
-    //private BufferedReader br;
-    protected BufferedReader is;
-    protected PrintWriter os;
 
-    protected String serverAddress;
-    protected int serverPort;
 
     /**
      *
@@ -27,24 +20,22 @@ public class ConnectionToServer
      */
     public ConnectionToServer(String address, int port)
     {
-        serverAddress = address;
-        serverPort    = port;
+        super(address, port);
     }
 
     /**
      * Establishes a socket connection to the server that is identified by the serverAddress and the serverPort
      */
-    public void Connect()
+    public void connect()
     {
         try
         {
-            s=new Socket(serverAddress, serverPort);
-            //br= new BufferedReader(new InputStreamReader(System.in));
+            connectToServer();
             /*
             Read and write buffers on the socket
              */
-            is = new BufferedReader(new InputStreamReader(s.getInputStream()));
-            os = new PrintWriter(s.getOutputStream());
+            is = new DataInputStream(s.getInputStream());
+            os = new DataOutputStream(s.getOutputStream());
 
             System.out.println("Successfully connected to " + serverAddress + " on port " + serverPort);
         }
@@ -60,48 +51,28 @@ public class ConnectionToServer
      * @param message input message string to the server
      * @return the received server answer
      */
-    public String SendForAnswer(String message)
+    public MessageProtocol sendForAnswer(MessageProtocol message)
     {
-        String response = new String();
+        MessageProtocol response = null;
         try
         {
             /*
-            Sends the message to the server via PrintWriter
+            Sends the message to the server via Data Stream
              */
-            os.println(message);
+            os.write(message.getByteMessage());
             os.flush();
             /*
-            Reads a line from the server via Buffer Reader
+            Reads a line from the server via Data Stream
              */
-            System.out.println("response" + response);
-            response = is.readLine();
-            System.out.println("response2" + response);
+            byte[] data = new byte[MessageProtocol.MAX_BYTE_SIZE];
+            is.read(data);
+            response = new MessageProtocol(data);
         }
         catch(IOException e)
         {
             e.printStackTrace();
-            System.out.println("ConnectionToServer. SendForAnswer. Socket read Error");
+            System.out.println("ConnectionToServer: Socket read Error");
         }
         return response;
-    }
-
-
-    /**
-     * Disconnects the socket and closes the buffers
-     */
-    public void Disconnect()
-    {
-        try
-        {
-            is.close();
-            os.close();
-            //br.close();
-            s.close();
-            System.out.println("ConnectionToServer. SendForAnswer. Connection Closed");
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
     }
 }
