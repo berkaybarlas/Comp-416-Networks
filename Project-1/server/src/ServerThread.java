@@ -57,7 +57,7 @@ class ServerThread extends Thread
 		        lines = "Client messaged : " + message.payload + " at  : " + Thread.currentThread().getId();
 
                 System.out.println("Client " + s.getRemoteSocketAddress() + " sent :  " + lines);
-                switch (MessageType.valueOf("" + message.type)){
+                switch (MessageType.getMessageType(message.type)) {
                     case AUTH_REQUEST:
                         sendMessageToClient(MessageType.AUTH_SUCCESS, "Success");
                         break;

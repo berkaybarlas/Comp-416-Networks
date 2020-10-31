@@ -21,6 +21,15 @@ public enum MessageType {
         return "" + value;
     }
 
+    public static MessageType getMessageType(int value) {
+        for (MessageType messageType : MessageType.values()) {
+            if (messageType.value == (value)) {
+                return messageType;
+            }
+        }
+        return  null;
+    };
+
     private MessageType(int value) {
         this.value = value;
     }

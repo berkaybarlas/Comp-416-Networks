@@ -31,7 +31,8 @@ public class ClientMain
         {
 
             System.out.println("Response from server: " + serverMessage.payload);
-            switch (MessageType.valueOf("" + serverMessage.type)){
+
+            switch (MessageType.getMessageType(serverMessage.type)) {
                 case AUTH_CHALLANGE:
                     message = new MessageProtocol(MessageType.API_RESPONSE.value, textMessage);
                     // TODO: missing question

@@ -95,6 +95,9 @@ public class MessageProtocol {
      *
      */
     public byte[] getByteMessage() {
+        if (payload == null) {
+            return new byte[0];
+        }
         byte[] payloadBytes = payload.getBytes();
         byte[] byteMessage = new byte[headerSize + tokenSize + payloadBytes.length];
         byteMessage[0] = (byte) phase;
