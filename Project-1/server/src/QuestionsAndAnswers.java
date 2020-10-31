@@ -23,13 +23,17 @@ public class QuestionsAndAnswers
                     name = str;
                     result.put(str, new HashMap<String, String>());
                 }
-                else if (str.equals("\n"))
+                else if (str.equals(""))
                 {
                     result.get(name).put(prevLine, "Success");
                 }
                 else
                 {
                     result.get(name).put(prevLine, str);
+                }
+                if (!s.hasNextLine())
+                {
+                    result.get(name).put(str, "Success");
                 }
                 prevLine = str;
                 lineCounter++;
