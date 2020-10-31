@@ -1,3 +1,4 @@
+import auth.AuthSystem;
 import data.DataServer;
 import utils.MessageProtocol;
 import utils.MessageType;
@@ -17,13 +18,11 @@ class ServerThread extends Thread
     private MessageProtocol message;
     private String line = new String();
     private String lines = new String();
-    private HashMap<String, HashMap<String, String>> QnAs = new HashMap<String, HashMap<String, String>>();
+    private HashMap<String, HashMap<String, String>> oldauthSystem = new HashMap<String, HashMap<String, String>>();
+    private AuthSystem authManager;
     private String username = new String();
-    private String question = new String();
+
     private String token = new String();
-    private int prime1 = 7;
-    private int prime2 = 31;
-    private int hash = prime1;
 
     /**
      * Creates a server thread on the input socket
@@ -33,6 +32,7 @@ class ServerThread extends Thread
     public ServerThread(Socket s)
     {
         this.s = s;
+        initializeServer();
     }
 
     /**
@@ -62,66 +62,38 @@ class ServerThread extends Thread
                 // TODO: DATA COMMUNICATION
                 // TODO: TIMEOUT
                 // TODO: WHETHER API
-		        lines = "Client messaged : " + message.payload + " at  : " + Thread.currentThread().getId();
-                QnAs = QuestionsAndAnswers.retrieve();
-                QnAs.entrySet().forEach(entry->{
-                    System.out.println(entry.getKey() + " " + entry.getValue());
-                });
-                System.out.println("Client " + s.getRemoteSocketAddress() + " sent :  " + lines);
+		        lines = " messaged : " + message.payload + " @thread#" + Thread.currentThread().getId();
+                System.out.println("Client " + s.getRemoteSocketAddress() + lines);
+
                 switch (MessageType.getMessageType(message.type)) {
                     case AUTH_REQUEST:
-                        if(!QnAs.containsKey(message.payload) && username.equals(""))
-                        {
+                        if(!authManager.doesUserExist(message.payload) && username.equals("")) {
                             sendMessageToClient(MessageType.AUTH_FAILURE, "User Does Not Exist\n");
                             break;
                         }
-                        if (QnAs.containsKey(message.payload))
-                        {
+
+                        if (username.equals("") && authManager.doesUserExist(message.payload)) {
                             username = message.payload;
-                            question = QnAs.get(username).get(username);
-                            sendMessageToClient(MessageType.AUTH_CHALLANGE, question);
-                            break;
+                            authManager.setUser(username);
                         }
-                        else if (QnAs.get(username).containsValue(message.payload))
-                        {
-                            if (QnAs.get(username).get(question).equals(message.payload))
-                            {
-                                if (QnAs.get(username).get(message.payload).equals("Success"))
-                                {
-                                    // 1.generate a random number
-                                    // 2.concat it to username
-                                    // 3.hash = hash*prime2 + charAt(i) for all i in text
-                                    Random rand = new Random();
-                                    int rand1 = rand.nextInt();
-                                    username += rand1;
-                                    for (int i=0; i<username.length(); i++)
-                                    {
-                                        hash = hash*prime2 + username.charAt(i);
-                                    }
-                                    token = hash + "";
-                                    sendMessageToClient(MessageType.AUTH_SUCCESS, token);
-                                    break;
-                                }
-                                else
-                                {
-                                    question = QnAs.get(username).get(message.payload);
-                                    sendMessageToClient(MessageType.AUTH_CHALLANGE, question);
-                                    break;
-                                }
+
+                        if (authManager.isAnswerCorrect(message.payload)) {
+                            if (authManager.doesAuthGranted()) {
+
+                                token = authManager.generateToken(username);
+
+                                sendMessageToClient(MessageType.AUTH_SUCCESS, token);
+                            } else {
+                                sendMessageToClient(MessageType.AUTH_CHALLANGE, authManager.getCurrentQuestion());
                             }
-                            else
-                            {
-                                sendMessageToClient(MessageType.AUTH_FAILURE, "Incorrect Answer\n");
-                                break;
-                            }
-                        }
-                        else
-                        {
+                        } else {
                             sendMessageToClient(MessageType.AUTH_FAILURE, "Incorrect Answer\n");
-                            break;
+                            // TODO break connection
                         }
+
+                        break;
                     case API_REQUEST:
-                        sendMessageToClient(MessageType.API_RESPONSE, "Success");
+                        sendMessageToClient(MessageType.API_RESPONSE, "API_RESPONSE");
                         break;
                     case API_REQUEST_DATA:
                         String clientID = message.payload;
@@ -144,19 +116,23 @@ class ServerThread extends Thread
         catch (NullPointerException e)
         {
             line = this.getName(); //reused String line for getting thread name
-            System.err.println("Server Thread. Run.Client " + line + " Closed");
+            System.err.println("Null Pointer in Server Thread. Run.Client " + line + " Closed");
+            System.err.println(e);
         } finally
         {
             closeThreadAndSocket();
         }//end finally
     }
 
+    private void initializeServer() {
+        authManager = new AuthSystem();
+    }
     /**
      * The function to send a string message to the client
      *
      * @param str the string to be sent as message
      */
-    private void sendMessageToClient(MessageType type, String str) throws IOException{
+    private void sendMessageToClient(MessageType type, String str) throws IOException {
         MessageProtocol message = new MessageProtocol(type.value, str);
         System.out.println("sendMessageToClient: " + str);
         os.write(message.getByteMessage());

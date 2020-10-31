@@ -21,18 +21,15 @@ public class ClientMain
         MessageProtocol message;
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter a message to send server");
 
+        System.out.println("Enter your username to send server");
         String textMessage = scanner.nextLine();
-        message = new MessageProtocol(MessageType.AUTH_REQUEST.value, textMessage);
-        MessageProtocol serverMessage = connectionToServer.sendForAnswer(message);
+        int lastResponseType = -1;
+        MessageProtocol serverResponse;
 
         while (!textMessage.equals("QUIT"))
         {
-
-            System.out.println("Response from server: " + serverMessage.payload);
-
-            switch (MessageType.getMessageType(serverMessage.type)) {
+            switch (MessageType.getMessageType(lastResponseType)) {
                 case AUTH_CHALLANGE:
                     message = new MessageProtocol(MessageType.AUTH_REQUEST.value, textMessage);
                     // TODO: missing question
@@ -53,11 +50,10 @@ public class ClientMain
                     } else {
                         message = new MessageProtocol(MessageType.AUTH_REQUEST.value, textMessage);
                     }
-
-
             }
-            serverMessage = connectionToServer.sendForAnswer(message);
-
+            serverResponse = connectionToServer.sendForAnswer(message);
+            lastResponseType = serverResponse.type;
+            System.out.println("Response from server: " + serverResponse.payload + " type: " + lastResponseType);
             textMessage = scanner.nextLine();
         }
         connectionToServer.disconnect();

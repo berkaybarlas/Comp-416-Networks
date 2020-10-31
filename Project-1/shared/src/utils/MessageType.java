@@ -1,6 +1,8 @@
 package utils;
 
 public enum MessageType {
+    /** Undefined Message type */
+    UNDEFINED(-1),
     /** Authentication request */
     AUTH_REQUEST(0),
     /** Authentication challange */
@@ -27,7 +29,7 @@ public enum MessageType {
                 return messageType;
             }
         }
-        return  null;
+        return  UNDEFINED;
     };
 
     private MessageType(int value) {
