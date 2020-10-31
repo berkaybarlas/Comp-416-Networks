@@ -6,7 +6,7 @@ public enum MessageType {
     /** Authentication challange */
     AUTH_CHALLANGE(1),
     /** Authentication failed */
-    AUTH_FAIL(2),
+    AUTH_FAILURE(2),
     /** Authentication successfull */
     AUTH_SUCCESS(3),
     API_REQUEST(4),

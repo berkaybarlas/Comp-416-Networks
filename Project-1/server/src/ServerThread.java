@@ -4,6 +4,7 @@ import utils.MessageType;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.*;
 
 class ServerThread extends Thread
 {
@@ -16,6 +17,13 @@ class ServerThread extends Thread
     private MessageProtocol message;
     private String line = new String();
     private String lines = new String();
+    private HashMap<String, HashMap<String, String>> QnAs = new HashMap<String, HashMap<String, String>>();
+    private String username = new String();
+    private String question = new String();
+    private String token = new String();
+    private int prime1 = 7;
+    private int prime2 = 31;
+    private int hash = prime1;
 
     /**
      * Creates a server thread on the input socket
@@ -55,12 +63,63 @@ class ServerThread extends Thread
                 // TODO: TIMEOUT
                 // TODO: WHETHER API
 		        lines = "Client messaged : " + message.payload + " at  : " + Thread.currentThread().getId();
-
+                QnAs = QuestionsAndAnswers.retrieve();
+                QnAs.entrySet().forEach(entry->{
+                    System.out.println(entry.getKey() + " " + entry.getValue());
+                });
                 System.out.println("Client " + s.getRemoteSocketAddress() + " sent :  " + lines);
                 switch (MessageType.getMessageType(message.type)) {
                     case AUTH_REQUEST:
-                        sendMessageToClient(MessageType.AUTH_SUCCESS, "Success");
-                        break;
+                        if(!QnAs.containsKey(message.payload) && username.equals(""))
+                        {
+                            sendMessageToClient(MessageType.AUTH_FAILURE, "User Does Not Exist\n");
+                            break;
+                        }
+                        if (QnAs.containsKey(message.payload))
+                        {
+                            username = message.payload;
+                            question = QnAs.get(username).get(username);
+                            sendMessageToClient(MessageType.AUTH_CHALLANGE, question);
+                            break;
+                        }
+                        else if (QnAs.get(username).containsValue(message.payload))
+                        {
+                            if (QnAs.get(username).get(question).equals(message.payload))
+                            {
+                                if (QnAs.get(username).get(message.payload).equals("Success"))
+                                {
+                                    // 1.generate a random number
+                                    // 2.concat it to username
+                                    // 3.hash = hash*prime2 + charAt(i) for all i in text
+                                    Random rand = new Random();
+                                    int rand1 = rand.nextInt();
+                                    username += rand1;
+                                    for (int i=0; i<username.length(); i++)
+                                    {
+                                        hash = hash*prime2 + username.charAt(i);
+                                    }
+                                    token = hash + "";
+                                    sendMessageToClient(MessageType.AUTH_SUCCESS, token);
+                                    break;
+                                }
+                                else
+                                {
+                                    question = QnAs.get(username).get(message.payload);
+                                    sendMessageToClient(MessageType.AUTH_CHALLANGE, question);
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                sendMessageToClient(MessageType.AUTH_FAILURE, "Incorrect Answer\n");
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            sendMessageToClient(MessageType.AUTH_FAILURE, "Incorrect Answer\n");
+                            break;
+                        }
                     case API_REQUEST:
                         sendMessageToClient(MessageType.API_RESPONSE, "Success");
                         break;
