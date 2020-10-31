@@ -23,11 +23,10 @@ public class ConnectToOWM {
     }
 
     //
-//    @param takes the cityID as long
-//    return: gives latitude and longitude
-//
+    //    @param takes the cityID as long
+    //    return: gives latitude and longitude
+    //
     public void getLatLon(long cityID) {
-
 
         //JSON parser object to parse read file
         JSONParser parser = new JSONParser();
@@ -57,6 +56,12 @@ public class ConnectToOWM {
         }
     }
 
+    //
+    //    function to get current, daily and minutely weather report
+    //    @param citId
+    //    @param reqType can take current, daily and minutely
+    //    returns weather report as String
+    //
     public String getCityWheather(String cityId, String reqType) throws IOException {
         Long cityIdLong = Long.parseLong(cityId);
         getLatLon(cityIdLong);
@@ -70,14 +75,26 @@ public class ConnectToOWM {
         return ConnectToOWM(constructedURL);
     }
 
+    //
+    //    function to get max 5 days of weather history
+    //    @param cityId
+    //    @param number of days for historical weather report (max 5)
+    //    returns historical weather report as String - most current to least current
+    //
     public String getCityWheatherHistory(String cityId, int day) throws IOException {
 
         String returnVal = "";
         Long cityIdLong = Long.parseLong(cityId);
         getLatLon(cityIdLong);
         long ut2 = System.currentTimeMillis() / 1000L;
+        int histDays=5;
 
-        for (int i = 0; i < day; i++) {
+        if(day<5)
+        {
+            histDays = day;
+        }
+
+        for (int i = 0; i < histDays; i++) {
             ut2 -= 86400;
             constructedURL = GLOBAL_URL + "data/2.5/onecall/timemachine?lat=" + lat + "&lon=" + lon + "&dt=" + ut2 + "&appid=" + APPID;
             returnVal += ConnectToOWM(constructedURL);
@@ -85,17 +102,22 @@ public class ConnectToOWM {
         return returnVal;
     }
 
-    public void getCityWeatherMap(String cityId, String mapType){
+    //
+    //    function to get weather map as image
+    //    @param cityId
+    //    @param mapType can take "clouds_new", "precipitation_new", "pressure_new", "wind_new", "temp_new"
+    //    saves weather map at zoom level of 7 as png file
+    //
+    public void getCityWeatherMap(String cityId, String mapType) {
 
         Long cityIdLong = Long.parseLong(cityId);
         getLatLon(cityIdLong);
-        String url="https://tile.openweathermap.org/map/";
+        String url = "https://tile.openweathermap.org/map/";
 
+        int x = (int) ((180 + lon) * 128 / 360);
+        int y = (int) ((85 - lat) * 128 / 180);
 
-        int x= (int) ((180+lon)*128/360);
-        int y= (int) ((85-lat)*128/180);
-
-        constructedURL = url + mapType+ "/7/"+ x + "/" +y + ".png?appid=" + APPID;
+        constructedURL = url + mapType + "/7/" + x + "/" + y + ".png?appid=" + APPID;
 
         try {
 
@@ -123,7 +145,12 @@ public class ConnectToOWM {
 
     }
 
-
+    //
+    //    connection to OWM server
+    //    used in getCityWheather and getCityWheatherHistory
+    //    @param u URL for server connection
+    //    returns String from server
+    //
     public String ConnectToOWM(String u) throws IOException {
 
         String returnLine = "";
