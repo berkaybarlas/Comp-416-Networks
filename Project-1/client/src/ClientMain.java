@@ -34,7 +34,7 @@ public class ClientMain
 
             switch (MessageType.getMessageType(serverMessage.type)) {
                 case AUTH_CHALLANGE:
-                    message = new MessageProtocol(MessageType.API_RESPONSE.value, textMessage);
+                    message = new MessageProtocol(MessageType.AUTH_REQUEST.value, textMessage);
                     // TODO: missing question
                     break;
                 case AUTH_SUCCESS:
