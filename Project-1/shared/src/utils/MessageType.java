@@ -6,7 +6,7 @@ public enum MessageType {
     /** Authentication request */
     AUTH_REQUEST(0),
     /** Authentication challange */
-    AUTH_CHALLANGE(1),
+    AUTH_CHALLENGE(1),
     /** Authentication failed */
     AUTH_FAILURE(2),
     /** Authentication successfull */
@@ -14,7 +14,8 @@ public enum MessageType {
     API_REQUEST(4),
     API_RESPONSE(5),
     API_REQUEST_DATA(6),
-    API_DATA_HASH(7);
+    API_DATA_HASH(7),
+    API_DATA_RECEIVED(8);
 
     public int value;
 

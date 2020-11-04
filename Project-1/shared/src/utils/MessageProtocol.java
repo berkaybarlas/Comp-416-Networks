@@ -42,6 +42,7 @@ public class MessageProtocol {
         this.tokenSize = 0;
     }
 
+
     /**
      * Creates a message without token
      *

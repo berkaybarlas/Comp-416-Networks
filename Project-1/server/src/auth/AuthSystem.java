@@ -8,7 +8,6 @@ public class AuthSystem
 {
     private int prime1 = 7;
     private int prime2 = 31;
-    private int hash = prime1;
 
     private String SUCCESS = "success";
     private HashMap<String, HashMap<String, String>> userQuestionMap;
@@ -68,6 +67,7 @@ public class AuthSystem
         // 2.concat it to username
         // 3.hash = hash*prime2 + charAt(i) for all i in text
         Random rand = new Random();
+        int hash = prime1;
         int rand1 = rand.nextInt();
         username += rand1;
         for (int i=0; i<username.length(); i++)  {
@@ -76,7 +76,7 @@ public class AuthSystem
 
         String token = hash + "";
 
-        System.out.println("Generated token for" + username + ": " + token);
+        System.out.println("Generated token for " + username + ": " + token);
         return token;
     }
     public boolean doesAuthGranted() {

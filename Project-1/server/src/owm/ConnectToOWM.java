@@ -12,8 +12,14 @@ import java.net.URL;
 
 
 public class ConnectToOWM {
-    public String GLOBAL_URL = "https://api.openweathermap.org/";
-    public String APPID = "78f6fce93c7671e98bd7e6d954ae3ad3";
+    private String SERVER_RESOURCE_PATH = "/server/src/resources/";
+    private String SERVER_DOWNLOAD_PATH = "/server/downloads/";
+    private String CITY_LIST = "city.list.json";
+
+    private String GLOBAL_URL = "https://api.openweathermap.org/";
+    private String OWM_MAP_URL = "https://tile.openweathermap.org/map/";
+    private String APPID = "78f6fce93c7671e98bd7e6d954ae3ad3";
+
     private URL url;
     private HttpURLConnection con;
 
@@ -34,7 +40,9 @@ public class ConnectToOWM {
         JSONParser parser = new JSONParser();
 
         String let = null;
-        try (FileReader reader = new FileReader("city.list.json")) {
+        String localDir = System.getProperty("user.dir");
+
+        try (FileReader reader = new FileReader(localDir + SERVER_RESOURCE_PATH + CITY_LIST)) {
             //Read JSON fileJso
             JSONArray obj = (JSONArray) parser.parse(reader);
 
@@ -114,18 +122,21 @@ public class ConnectToOWM {
 
         Long cityIdLong = Long.parseLong(cityId);
         getLatLon(cityIdLong);
-        String url = "https://tile.openweathermap.org/map/";
+
 
         int x = (int) ((180 + lon) * 128 / 360);
         int y = (int) ((85 - lat) * 128 / 180);
 
-        constructedURL = url + mapType + "/7/" + x + "/" + y + ".png?appid=" + APPID;
+        constructedURL = OWM_MAP_URL + mapType + "/7/" + x + "/" + y + ".png?appid=" + APPID;
 
         try {
+            String localDir = System.getProperty("user.dir");
 
-            URL urll = new URL(constructedURL);
-            InputStream is = urll.openStream();
-            OutputStream os = new FileOutputStream("image.png");
+            URL url = new URL(constructedURL);
+            InputStream is = url.openStream();
+
+            String imageName = String.format("%s-%s-image-%d.png",cityId, mapType,System.currentTimeMillis());
+            OutputStream os = new FileOutputStream(localDir + SERVER_DOWNLOAD_PATH + imageName);
 
             byte[] b = new byte[2048];
             int length;
@@ -142,7 +153,7 @@ public class ConnectToOWM {
 
         } catch (IOException e) {
             //e.printStackTrace();
-            System.err.println("Error: no server has been found ");
+            System.err.println("Error: File IO error in OWM");
         }
 
     }

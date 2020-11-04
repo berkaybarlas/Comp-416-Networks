@@ -36,7 +36,7 @@ public class Server extends BaseServer
         {
             s = this.getSocket().accept();
             System.out.println("A connection was established with a client on the address of " + s.getRemoteSocketAddress());
-            ServerThread st = new ServerThread(s);
+            ServerThread st = new ServerThread(s, dataServer);
             st.start();
 
         }

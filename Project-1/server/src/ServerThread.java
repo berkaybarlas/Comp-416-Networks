@@ -1,5 +1,7 @@
 import auth.AuthSystem;
 import data.DataServer;
+import data.DataServerThread;
+import utils.HashUtils;
 import utils.MessageProtocol;
 import utils.MessageType;
 
@@ -14,7 +16,7 @@ class ServerThread extends Thread
     protected DataInputStream is;
     protected DataOutputStream os;
     protected Socket s;
-    private DataServer dataServerThread;
+    private DataServer dataServer;
     private MessageProtocol message;
     private String line = new String();
     private String lines = new String();
@@ -29,7 +31,18 @@ class ServerThread extends Thread
      *
      * @param s input socket to create a thread on
      */
-    public ServerThread(Socket s)
+    public ServerThread(Socket s, DataServer dataServer)
+    {
+        this(s);
+        this.dataServer = dataServer;
+    }
+
+    /**
+     * Creates a server thread on the input socket
+     *
+     * @param s input socket to create a thread on
+     */
+    private ServerThread(Socket s)
     {
         this.s = s;
         initializeServer();
@@ -62,7 +75,7 @@ class ServerThread extends Thread
                 // TODO: DATA COMMUNICATION
                 // TODO: TIMEOUT
                 // TODO: WHETHER API
-		        lines = " messaged : " + message.payload + " @thread#" + Thread.currentThread().getId();
+		        lines = " messaged : " + message.type + "| " + message.payload + " @thread#" + Thread.currentThread().getId();
                 System.out.println("Client " + s.getRemoteSocketAddress() + lines);
 
                 switch (MessageType.getMessageType(message.type)) {
@@ -84,7 +97,7 @@ class ServerThread extends Thread
 
                                 sendMessageToClient(MessageType.AUTH_SUCCESS, token);
                             } else {
-                                sendMessageToClient(MessageType.AUTH_CHALLANGE, authManager.getCurrentQuestion());
+                                sendMessageToClient(MessageType.AUTH_CHALLENGE, authManager.getCurrentQuestion());
                             }
                         } else {
                             sendMessageToClient(MessageType.AUTH_FAILURE, "Incorrect Answer\n");
@@ -93,15 +106,31 @@ class ServerThread extends Thread
 
                         break;
                     case API_REQUEST:
+                        // succes, fail
                         sendMessageToClient(MessageType.API_RESPONSE, "API_RESPONSE");
                         break;
                     case API_REQUEST_DATA:
                         String clientID = message.payload;
-                        dataServerThread.getDSThread(clientID);
-                        sendMessageToClient(MessageType.API_DATA_HASH, "HASH");
+                        byte[] dataPacket = message.payload.getBytes();
+                        String hashedData = HashUtils.generateSHA256(dataPacket);
+                        sendMessageToClient(MessageType.API_DATA_HASH, hashedData);
+
+                        DataServerThread DSThread = dataServer.getDSThread(clientID);
+                        //Stop timeout or increase
+                        if (DSThread != null) {
+                            System.out.println("Sending Data to client " + s.getRemoteSocketAddress());
+                            // Send string or image
+                            String localDir = System.getProperty("user.dir");
+                            File file = new File(localDir + "/server/downloads/833-clouds_new-image.png");
+                            DSThread.sendFileData(file);
+                        }
+                        break;
+                    case API_DATA_RECEIVED:
+                        // Start timeout
+                        sendMessageToClient(MessageType.UNDEFINED, "UNDEF");
                         break;
                     default:
-                        sendMessageToClient(MessageType.AUTH_CHALLANGE, "Question");
+                        sendMessageToClient(MessageType.AUTH_CHALLENGE, "Question");
                 }
 
                 is.read(data);
