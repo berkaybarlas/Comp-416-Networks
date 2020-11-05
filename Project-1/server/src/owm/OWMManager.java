@@ -28,6 +28,8 @@ public class OWMManager {
     protected double lon;
 
     public OWMManager() {
+        initDownloadPath();
+        // TODO create cityId location hashmap
     }
 
     //
@@ -41,7 +43,7 @@ public class OWMManager {
 
         String let = null;
         String localDir = System.getProperty("user.dir");
-
+        // TODO instead of doing create a hashmap <cityId, location>
         try (FileReader reader = new FileReader(localDir + SERVER_RESOURCE_PATH + CITY_LIST)) {
             //Read JSON fileJso
             JSONArray obj = (JSONArray) parser.parse(reader);
@@ -197,4 +199,11 @@ public class OWMManager {
         return returnLine;
     }
 
+    private void initDownloadPath() {
+        String localDir = System.getProperty("user.dir");
+        File directory = new File(localDir + SERVER_DOWNLOAD_PATH);
+        if (! directory.exists()){
+            directory.mkdirs();
+        }
+    }
 }

@@ -19,6 +19,7 @@ public class DataClient extends BaseClient {
     public DataClient(String address, int port)
     {
         super(address, port);
+        initDownloadPath();
     }
 
     public void connect()
@@ -99,5 +100,13 @@ public class DataClient extends BaseClient {
             System.err.println("Error: no server has been found on " + serverAddress + "/" + serverPort);
         }
         return Arrays.copyOfRange(fileByteArray, 0, currentSize);
+    }
+
+    private void initDownloadPath() {
+        String localDir = System.getProperty("user.dir");
+        File directory = new File(localDir + CLIENT_DOWNLOAD_PATH);
+        if (! directory.exists()){
+            directory.mkdirs();
+        }
     }
 }

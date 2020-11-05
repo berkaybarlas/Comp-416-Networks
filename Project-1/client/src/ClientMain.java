@@ -67,7 +67,10 @@ public class ClientMain
                 case API_DATA_HASH:
                     // Try to recieve data
                     System.out.println("Waiting for data");
-                    String recevingFileName = textMessage + "-" + System.currentTimeMillis();
+                    // TODO get file type
+                    String fileType = ".png";
+                    String recevingFileName = textMessage + "-" + System.currentTimeMillis() + fileType;
+
                     byte [] receivedData = dataClient.waitForFile(recevingFileName);
                     System.out.println("Data recieved");
 
