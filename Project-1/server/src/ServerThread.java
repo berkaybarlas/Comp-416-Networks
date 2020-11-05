@@ -1,13 +1,14 @@
 import auth.AuthSystem;
 import data.DataServer;
 import data.DataServerThread;
+import owm.OWMManager;
+import utils.FileManager;
 import utils.HashUtils;
 import utils.MessageProtocol;
 import utils.MessageType;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.*;
 
 class ServerThread extends Thread
 {
@@ -16,15 +17,19 @@ class ServerThread extends Thread
     protected DataInputStream is;
     protected DataOutputStream os;
     protected Socket s;
+
     private DataServer dataServer;
+    private AuthSystem authManager;
+
     private MessageProtocol message;
+    private String requestedFileLocation;
     private String line = new String();
     private String lines = new String();
-    private HashMap<String, HashMap<String, String>> oldauthSystem = new HashMap<String, HashMap<String, String>>();
-    private AuthSystem authManager;
-    private String username = new String();
 
+    private String username = new String();
     private String token = new String();
+    private DataServerThread DSThread;
+    private OWMManager owmManager;
 
     /**
      * Creates a server thread on the input socket
@@ -105,24 +110,41 @@ class ServerThread extends Thread
                         }
 
                         break;
+                    case DATA_CONNECTION_REQUEST:
+                        String clientID = message.payload;
+                        DSThread = dataServer.getDSThread(clientID);
+                        // TODO check TOKEN
+                        if (DSThread != null) {
+                            sendMessageToClient(MessageType.DATA_CONNECTION_ACCEPTED, "Connection found");
+                            owmManager = new OWMManager();
+                        } else {
+                            sendMessageToClient(MessageType.DATA_CONNECTION_DECLINED, "Connection not found");
+                        }
+
+                        break;
                     case API_REQUEST:
+                        // TODO check TOKEN
                         // succes, fail
+                        // TODO implement request types
+                        requestedFileLocation = owmManager.getCityWeatherMap("" + 833, "clouds_new");
                         sendMessageToClient(MessageType.API_RESPONSE, "API_RESPONSE");
                         break;
                     case API_REQUEST_DATA:
-                        String clientID = message.payload;
-                        byte[] dataPacket = message.payload.getBytes();
-                        String hashedData = HashUtils.generateSHA256(dataPacket);
+//                        String clientID = message.payload;
+                        // TODO check TOKEN
+//                        String localDir = System.getProperty("user.dir");
+//                        File file = new File(localDir + "/server/downloads/833-clouds_new-image.png");
+                        byte[] fileByteArray = FileManager.fileToByte(requestedFileLocation);
+
+                        String hashedData = HashUtils.generateSHA256(fileByteArray);
                         sendMessageToClient(MessageType.API_DATA_HASH, hashedData);
 
-                        DataServerThread DSThread = dataServer.getDSThread(clientID);
+
                         //Stop timeout or increase
                         if (DSThread != null) {
                             System.out.println("Sending Data to client " + s.getRemoteSocketAddress());
                             // Send string or image
-                            String localDir = System.getProperty("user.dir");
-                            File file = new File(localDir + "/server/downloads/833-clouds_new-image.png");
-                            DSThread.sendFileData(file);
+                            DSThread.sendFileData(fileByteArray);
                         }
                         break;
                     case API_DATA_RECEIVED:

@@ -1,6 +1,3 @@
-import owm.ConnectToOWM;
-import utils.MessageProtocol;
-
 public class ServerMain
 {
     public static void main(String[] args)

@@ -11,11 +11,16 @@ public enum MessageType {
     AUTH_FAILURE(2),
     /** Authentication successfull */
     AUTH_SUCCESS(3),
-    API_REQUEST(4),
-    API_RESPONSE(5),
-    API_REQUEST_DATA(6),
-    API_DATA_HASH(7),
-    API_DATA_RECEIVED(8);
+    DATA_CONNECTION_REQUEST(4),
+    DATA_CONNECTION_ACCEPTED(5),
+    DATA_CONNECTION_DECLINED(6),
+    API_REQUEST(7),
+    API_RESPONSE(8),
+    API_REQUEST_DATA(9),
+    API_DATA_HASH(10),
+    API_DATA_RECEIVED(11),
+    /** Connection closed due timeout */
+    TIMEOUT(12);
 
     public int value;
 

@@ -11,7 +11,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 
-public class ConnectToOWM {
+public class OWMManager {
     private String SERVER_RESOURCE_PATH = "/server/src/resources/";
     private String SERVER_DOWNLOAD_PATH = "/server/downloads/";
     private String CITY_LIST = "city.list.json";
@@ -27,7 +27,7 @@ public class ConnectToOWM {
     protected double lat;
     protected double lon;
 
-    public ConnectToOWM() {
+    public OWMManager() {
     }
 
     //
@@ -112,17 +112,21 @@ public class ConnectToOWM {
         return returnVal;
     }
 
-    //
-    //    function to get weather map as image
-    //    @param cityId
-    //    @param mapType can take "clouds_new", "precipitation_new", "pressure_new", "wind_new", "temp_new"
-    //    saves weather map at zoom level of 7 as png file
-    //
-    public void getCityWeatherMap(String cityId, String mapType) {
+    /**
+     *  function to get weather map as image
+     *
+     * @param cityId
+     * @param mapType can take "clouds_new", "precipitation_new", "pressure_new", "wind_new", "temp_new"
+     *                saves weather map at zoom level of 7 as png file
+     */
+    public String getCityWeatherMap(String cityId, String mapType) {
 
         Long cityIdLong = Long.parseLong(cityId);
         getLatLon(cityIdLong);
+        String localDir = System.getProperty("user.dir");
 
+        String imageName = String.format("%s-%s-image-%d.png",cityId, mapType,System.currentTimeMillis());
+        String imageLocation = localDir + SERVER_DOWNLOAD_PATH + imageName;
 
         int x = (int) ((180 + lon) * 128 / 360);
         int y = (int) ((85 - lat) * 128 / 180);
@@ -130,13 +134,11 @@ public class ConnectToOWM {
         constructedURL = OWM_MAP_URL + mapType + "/7/" + x + "/" + y + ".png?appid=" + APPID;
 
         try {
-            String localDir = System.getProperty("user.dir");
-
             URL url = new URL(constructedURL);
             InputStream is = url.openStream();
 
-            String imageName = String.format("%s-%s-image-%d.png",cityId, mapType,System.currentTimeMillis());
-            OutputStream os = new FileOutputStream(localDir + SERVER_DOWNLOAD_PATH + imageName);
+
+            OutputStream os = new FileOutputStream(imageLocation);
 
             byte[] b = new byte[2048];
             int length;
@@ -155,7 +157,7 @@ public class ConnectToOWM {
             //e.printStackTrace();
             System.err.println("Error: File IO error in OWM");
         }
-
+        return imageLocation;
     }
 
     //

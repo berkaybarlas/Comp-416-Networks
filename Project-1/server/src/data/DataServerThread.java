@@ -1,5 +1,7 @@
 package data;
 
+import utils.FileManager;
+
 import java.io.*;
 import java.net.Socket;
 
@@ -45,13 +47,21 @@ public class DataServerThread extends Thread {
     public void sendFileData(File file) {
         try
         {
-            System.out.println("Reading file...");
-            byte [] fileByteArray  = new byte [(int)file.length()];
-            FileInputStream fis = new FileInputStream(file);
+            byte [] fileByteArray = FileManager.fileToByte(file);
+            sendFileData(fileByteArray);
+            os.write(fileByteArray,0, fileByteArray.length);
+            os.flush();
+            System.out.println("File sent...");
+        }
+        catch (IOException e)
+        {
+            System.err.println("Server Thread. Run. IO error in server thread");
+        }
+    }
 
-            BufferedInputStream bis = new BufferedInputStream(fis);
-            bis.read(fileByteArray,0,fileByteArray.length);
-            System.out.println("File read complete. File size: " + fileByteArray.length);
+    public void sendFileData(byte[] fileByteArray) {
+        try
+        {
             os.write(fileByteArray,0, fileByteArray.length);
             os.flush();
             System.out.println("File sent...");

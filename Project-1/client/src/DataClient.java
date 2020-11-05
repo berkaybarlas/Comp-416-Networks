@@ -65,7 +65,7 @@ public class DataClient extends BaseClient {
         return data;
     }
 
-    public byte[] waitForFile() {
+    public byte[] waitForFile(String fileName) {
         byte [] fileByteArray  = new byte [MAX_FILE_SIZE];
         int bytesRead;
         int currentSize = 0;
@@ -73,23 +73,17 @@ public class DataClient extends BaseClient {
         {
             // receive file
 
-            String outputFileName = "test.png";
+            String outputFileName = fileName;
             String localDir = System.getProperty("user.dir");
             String fileLoc = localDir + CLIENT_DOWNLOAD_PATH + outputFileName;
 
             FileOutputStream fos = new FileOutputStream(fileLoc);
             BufferedOutputStream bos = new BufferedOutputStream(fos);
             System.out.println("Wait for File...");
+            System.out.println("File receiving with size:  " + currentSize);
+            // Read until transfer ends
             bytesRead = is.read(fileByteArray,0,fileByteArray.length);
             currentSize = bytesRead;
-
-            // Read until transfer ends
-            System.out.println("File receiving ... " + currentSize);
-//            do {
-//                bytesRead = is.read(fileByteArray, currentSize, (fileByteArray.length-currentSize));
-//                if(bytesRead >= 0) currentSize += bytesRead;
-//                System.out.println("Readfile" + bytesRead);
-//            } while(bytesRead > -1);
 
             // read to file
             bos.write(fileByteArray, 0 , currentSize);
