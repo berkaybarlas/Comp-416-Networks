@@ -86,7 +86,7 @@ class ServerThread extends Thread
                 switch (MessageType.getMessageType(message.type)) {
                     case AUTH_REQUEST:
                         if(!authManager.doesUserExist(message.payload) && username.equals("")) {
-                            sendMessageToClient(MessageType.AUTH_FAILURE, "User Does Not Exist\n");
+                            sendMessageToClient(MessageType.AUTH_FAIL, "User Does Not Exist\n");
                             break;
                         }
 
@@ -105,7 +105,7 @@ class ServerThread extends Thread
                                 sendMessageToClient(MessageType.AUTH_CHALLENGE, authManager.getCurrentQuestion());
                             }
                         } else {
-                            sendMessageToClient(MessageType.AUTH_FAILURE, "Incorrect Answer\n");
+                            sendMessageToClient(MessageType.AUTH_FAIL, "Incorrect Answer\n");
                             // TODO break connection
                         }
 
@@ -127,7 +127,7 @@ class ServerThread extends Thread
                         // succes, fail
                         // TODO implement request types
                         requestedFileLocation = owmManager.getCityWeatherMap("" + 833, "clouds_new");
-                        sendMessageToClient(MessageType.API_RESPONSE, "API_RESPONSE");
+                        sendMessageToClient(MessageType.API_RESPONSE_SUCCESS, "API_RESPONSE");
                         break;
                     case API_REQUEST_DATA:
 //                        String clientID = message.payload;
