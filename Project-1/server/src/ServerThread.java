@@ -83,7 +83,7 @@ class ServerThread extends Thread
 		        lines = " messaged : " + message.type + "| " + message.payload + " @thread#" + Thread.currentThread().getId();
                 System.out.println("Client " + s.getRemoteSocketAddress() + lines);
 
-                switch (MessageType.getMessageType(message.type)) {
+                switch (MessageType.getMessageType(message.type.value)) {
                     case AUTH_REQUEST:
                         if(!authManager.doesUserExist(message.payload) && username.equals("")) {
                             sendMessageToClient(MessageType.AUTH_FAIL, "User Does Not Exist\n");
@@ -126,8 +126,11 @@ class ServerThread extends Thread
                         // TODO check TOKEN
                         // succes, fail
                         // TODO implement request types
-                        requestedFileLocation = owmManager.getCityWeatherMap("" + 833, "clouds_new");
-                        sendMessageToClient(MessageType.API_RESPONSE_SUCCESS, "API_RESPONSE");
+                        String[] params = message.params;
+                        // Check params
+                        requestedFileLocation = owmManager.getCityWeatherMap(params[0], params[1]);
+                        String fileType = FileManager.getFileType(requestedFileLocation);
+                        sendMessageToClient(MessageType.API_RESPONSE_SUCCESS, fileType);
                         break;
                     case API_REQUEST_DATA:
 //                        String clientID = message.payload;
@@ -184,7 +187,7 @@ class ServerThread extends Thread
      * @param str the string to be sent as message
      */
     private void sendMessageToClient(MessageType type, String str) throws IOException {
-        MessageProtocol message = new MessageProtocol(type.value, str);
+        MessageProtocol message = new MessageProtocol(type, str);
         System.out.println("sendMessageToClient: " + str);
         os.write(message.getByteMessage());
         os.flush();

@@ -40,7 +40,7 @@ public enum MessageType {
         return  UNDEFINED;
     };
 
-    private MessageType(int value) {
+    MessageType(int value) {
         this.value = value;
     }
 }

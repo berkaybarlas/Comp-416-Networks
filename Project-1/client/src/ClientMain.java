@@ -3,6 +3,7 @@
 import utils.HashUtils;
 import utils.MessageProtocol;
 import utils.MessageType;
+import utils.RequestType;
 
 import java.util.Scanner;
 
@@ -18,7 +19,8 @@ public class ClientMain
         connectionToServer = new ConnectionToServer(ConnectionToServer.DEFAULT_SERVER_ADDRESS, ConnectionToServer.DEFAULT_SERVER_PORT);
         connectionToServer.connect();
 
-        MessageProtocol message;
+        MessageProtocol message = null;
+        String fileType = "";
 
         Scanner scanner = new Scanner(System.in);
 
@@ -32,7 +34,7 @@ public class ClientMain
             switch (MessageType.getMessageType(lastResponseType)) {
                 case AUTH_CHALLENGE:
                     textMessage = scanner.nextLine();
-                    message = new MessageProtocol(MessageType.AUTH_REQUEST.value, textMessage);
+                    message = new MessageProtocol(MessageType.AUTH_REQUEST, textMessage);
                     // TODO: missing question
                     break;
                 case AUTH_SUCCESS:
@@ -42,13 +44,13 @@ public class ClientMain
                     dataClient = new DataClient();
                     dataClient.connect();
                     // Request for data connection
-                    message = new MessageProtocol(MessageType.DATA_CONNECTION_REQUEST.value,token, dataClient.clientIdentifier);
+                    message = new MessageProtocol(MessageType.DATA_CONNECTION_REQUEST,token, dataClient.clientIdentifier);
                     break;
                     // TODO: missing auth fail
                 case DATA_CONNECTION_ACCEPTED:
                     // TODO improve request type
                     textMessage = scanner.nextLine();
-                    message = new MessageProtocol(MessageType.API_REQUEST.value, textMessage);
+                    message = generateAPIRequest(textMessage);
                     break;
                 case DATA_CONNECTION_DECLINED:
                     System.out.println("Connection closed with reason: " + serverResponse.payload);
@@ -57,15 +59,15 @@ public class ClientMain
                     closeConnections();
                     break;
                 case API_RESPONSE_SUCCESS:
-                    message = new MessageProtocol(MessageType.API_REQUEST_DATA.value,token, "Ready to receive");
+                    fileType = message.payload;
+                    message = new MessageProtocol(MessageType.API_REQUEST_DATA,token, "Ready to receive");
                     break;
                     // TODO MISSING RESPONSE FAIL CASE
                 case API_DATA_HASH:
                     // Try to recieve data
                     System.out.println("Waiting for data");
                     // TODO get file type
-                    String fileType = ".png";
-                    String recevingFileName = textMessage + "-" + System.currentTimeMillis() + fileType;
+                    String recevingFileName = textMessage + "-" + System.currentTimeMillis() + "." + fileType;
 
                     byte [] receivedData = dataClient.waitForFile(recevingFileName);
                     System.out.println("Data recieved");
@@ -76,7 +78,12 @@ public class ClientMain
 
                     // Send recieved type message
                     // TODO update payload
-                    message = new MessageProtocol(MessageType.API_DATA_RECEIVED.value,token, "" + isDataValid);
+                    if (isDataValid) {
+                        message = new MessageProtocol(MessageType.API_DATA_RECEIVED,token, "Data hash matches.");
+                    } else {
+                        message = new MessageProtocol(MessageType.API_DATA_FAILED,token, "Data hash does not match!");
+                    }
+
                     break;
                 case TIMEOUT:
                     // TODO timeout, throw error and close connection
@@ -86,21 +93,28 @@ public class ClientMain
                 default:
                     if (authenticated) {
                         textMessage = scanner.nextLine();
-                        message = new MessageProtocol(MessageType.API_REQUEST.value, textMessage);
+                        message = generateAPIRequest(textMessage);
                     } else {
                         textMessage = scanner.nextLine();
-                        message = new MessageProtocol(MessageType.AUTH_REQUEST.value, textMessage);
+                        message = new MessageProtocol(MessageType.AUTH_REQUEST, textMessage);
                     }
 
             }
 
             serverResponse = connectionToServer.sendForAnswer(message);
-            lastResponseType = serverResponse.type;
+            lastResponseType = serverResponse.type.value;
             System.out.println("Response from server: " + serverResponse.payload + " type: " + lastResponseType);
         }
         connectionToServer.disconnect();
     }
 
+    static private MessageProtocol generateAPIRequest(String textMessage) {
+        // TODO implement parser
+        String[] params = new String[2];
+        params[0] = "833";
+        params[1] = "clouds_new";
+        return MessageProtocol.createAPIRequest(token, RequestType.MAP, params);
+    }
     static private void closeConnections() {
         dataClient.disconnect();
         connectionToServer.disconnect();

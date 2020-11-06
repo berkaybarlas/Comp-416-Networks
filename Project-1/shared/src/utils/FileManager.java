@@ -7,6 +7,14 @@ import java.io.IOException;
 
 public class FileManager {
 
+    public static String getFileType(String fileLocation) {
+        String fileType = "JSON";
+        if (fileLocation.toLowerCase().contains(".png")) {
+            fileType = "png";
+        }
+        return fileType;
+    }
+
     public static byte[] fileToByte(String fileLocation) throws IOException {
         File file = new File(fileLocation);
         return fileToByte(file);

@@ -25,34 +25,36 @@ public class MessageProtocol {
     }
 
     public int phase;
-    public int type;
+    public MessageType type;
     public int headerSize = DEFAULT_MESSAGE_HEADER_SIZE;
     public int tokenSize = DEFAULT_TOKEN_SIZE;
     public String payload;
+    public RequestType requestType;
+    public String[] params;
     private String token;
 
     /**
-     * Creates a message without token
+     * Creates AUTH message without token
      *
      * @param type type of message
      * @param payload payload to be send in message
      */
-    public MessageProtocol(int type, String payload) {
+    public MessageProtocol(MessageType type, String payload) {
         this(MessageMode.AUTH.phase, type, payload);
         this.tokenSize = 0;
     }
 
 
     /**
-     * Creates a message without token
+     * Creates a QUERY message with token
      *
      * @param type type of message
      * @param token message authentication token
      * @param payload payload to be send in message
      */
-    public MessageProtocol(int type, String token, String payload) {
+    public MessageProtocol(MessageType type, String token, String payload) {
         this(MessageMode.QUERY.phase, type, payload);
-        // TOKEN SIZE SHOULD EQUAL TO TOKEN SIZE
+        // TOKEN SIZE SHOULD BE EQUAL TO TOKEN SIZE
         this.token = normalizeToken(token);
     }
 
@@ -63,10 +65,25 @@ public class MessageProtocol {
      * @param type type of message
      * @param payload payload to be send in message
      */
-    public MessageProtocol(int phase, int type, String payload) {
+    private MessageProtocol(int phase, MessageType type, String payload) {
         this.phase = phase;
         this.type = type;
         this.payload = payload;
+    }
+
+    public static MessageProtocol createAPIRequest(String token, RequestType requestType, String[] params) {
+        MessageProtocol messageProtocol = new MessageProtocol(MessageType.API_REQUEST, token, "");
+        messageProtocol.requestType = requestType;
+        messageProtocol.params = params;
+        // Create payload for debug purposes
+        String tempPayload = "" + requestType.value + params.length;
+
+        for(int i=0; i<params.length; i++) {
+            tempPayload += "X" + params[i];
+        }
+        messageProtocol.payload = tempPayload;
+
+        return messageProtocol;
     }
 
     /**
@@ -81,12 +98,39 @@ public class MessageProtocol {
             return;
         }
         phase = (int) byteMessage[0];
-        type = (int) byteMessage[1];
+        type = MessageType.getMessageType((int) byteMessage[1]);
         int payloadSize = from4ByteArray(Arrays.copyOfRange(byteMessage, 2, headerSize));
+
         if (phase == MessageMode.QUERY.phase) {
+
             this.token = new String(Arrays.copyOfRange(byteMessage, headerSize, headerSize + tokenSize));
-            this.payload = new String(Arrays.copyOfRange(
-                    byteMessage,headerSize + tokenSize, payloadSize + headerSize + tokenSize));
+            int currentByteInd = headerSize + tokenSize;
+            if (type == MessageType.API_REQUEST) {
+                /** Special case for request type */
+
+                requestType = RequestType.getRequestType((int) byteMessage[currentByteInd++]);
+
+                /** General de-constructor for request params */
+                int paramNumber = (int) byteMessage[currentByteInd++];
+
+                params = new String[paramNumber];
+                /** Temp Payload for debug purposes */
+                String tempPayload = "" + requestType + paramNumber;
+
+                for(int i=0; i<paramNumber; i++) {
+                    int paramSize = (int) byteMessage[currentByteInd++];
+                    params[i] = new String(Arrays.copyOfRange(byteMessage, currentByteInd, currentByteInd + paramSize));
+                    currentByteInd = currentByteInd + paramSize;
+                    tempPayload += paramSize + params[i];
+                }
+                this.payload = tempPayload;
+
+            } else {
+                /** Default case for QUERY Phase messages */
+                this.payload = new String(Arrays.copyOfRange(
+                        byteMessage,headerSize + tokenSize, currentByteInd + payloadSize));
+            }
+
         } else if (phase == MessageMode.AUTH.phase){
             this.payload =  new String(Arrays.copyOfRange(byteMessage, headerSize, payloadSize + headerSize));
         }
@@ -102,15 +146,38 @@ public class MessageProtocol {
         byte[] payloadBytes = payload.getBytes();
         byte[] byteMessage = new byte[headerSize + tokenSize + payloadBytes.length];
         byteMessage[0] = (byte) phase;
-        byteMessage[1] = (byte) type;
-        // Add payload size
+        byteMessage[1] = (byte) type.value;
+        /** Add payload size */
         System.arraycopy(to4ByteArray(payloadBytes.length), 0, byteMessage,  2, 4);
+
         if (phase == MessageMode.QUERY.phase) {
-            // Add token
+            /** Add token */
             byte[] tokenByte = token.getBytes();
             System.arraycopy(tokenByte, 0, byteMessage,  headerSize, tokenSize);
-            // Add payload
-            System.arraycopy(payloadBytes, 0, byteMessage,  headerSize + tokenSize, payloadBytes.length);
+
+            int currentByteInd = headerSize + tokenSize;
+            if (type == MessageType.API_REQUEST) {
+                /**  Special case for request type */
+                /** Add Request type */
+                byteMessage[currentByteInd++] = (byte) requestType.value;
+                /** Add Param number */
+                byteMessage[currentByteInd++] = (byte) params.length;
+
+                /** General constructor for request params */
+                for(int i=0; i < params.length; i++) {
+                    int paramSize = params[i].length();
+                    byteMessage[currentByteInd++] = (byte) paramSize;
+
+                    System.arraycopy(params[i].getBytes(), 0, byteMessage,  currentByteInd, paramSize);
+                    currentByteInd = currentByteInd + paramSize;
+                }
+
+            } else {
+                /** Default case for QUERY Phase messages */
+                /** Add payload */
+                System.arraycopy(payloadBytes, 0, byteMessage,  currentByteInd, payloadBytes.length);
+            }
+
         } else if (phase == MessageMode.AUTH.phase){
             // Add payload size
             System.arraycopy(payloadBytes, 0, byteMessage,  headerSize, payloadBytes.length);
