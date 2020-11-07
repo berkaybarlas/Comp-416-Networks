@@ -1,50 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand />
+    <select />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="bc90f8f3-10fa-4f70-8040-a6f99f3819c9" name="Default Changelist" comment="" />
+    <list default="true" id="d8b018f2-47b4-4c5f-bf08-81b01d258683" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/ClientMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/ClientMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/owm/OWMManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/owm/OWMManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/utils/JSONManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/utils/JSONManager.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
+  <component name="Git.Pull.Settings">
+    <option name="BRANCH" value="main" />
   </component>
-  <component name="ProjectId" id="1jV0FWwIUwh19ho246z7zs3q5gn" />
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1jxLoWX7r8QgxoXm457c9LJVxXz" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="Downloaded.Files.Path.Enabled" value="false" />
-    <property name="Repository.Attach.Annotations" value="false" />
-    <property name="Repository.Attach.JavaDocs" value="false" />
-    <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/client/src" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../ConnecToOWM" />
   </component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/client/src" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="utils" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/server/src/resources" />
-      <recent name="$PROJECT_DIR$/server/src/owm" />
-      <recent name="$PROJECT_DIR$/server/src/auth" />
-    </key>
-  </component>
-  <component name="RunManager" selected="Application.ServerMain">
-    <configuration name="ClientMain" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Application.ClientMain">
+    <configuration name="ClientMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="ClientMain" />
       <module name="client" />
       <method v="2">
@@ -58,10 +54,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <list>
-      <item itemvalue="Application.ClientMain" />
-      <item itemvalue="Application.ServerMain" />
-    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.ClientMain" />
@@ -72,160 +64,78 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="bc90f8f3-10fa-4f70-8040-a6f99f3819c9" name="Default Changelist" comment="" />
-      <created>1603873848600</created>
+      <changelist id="d8b018f2-47b4-4c5f-bf08-81b01d258683" name="Default Changelist" comment="" />
+      <created>1604740970938</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1603873848600</updated>
+      <updated>1604740970938</updated>
     </task>
     <servers />
   </component>
-  <component name="WindowStateProjectService">
-    <state x="328" y="118" key="#Project_Structure" timestamp="1603983682619">
-      <screen x="0" y="23" width="1680" height="1027" />
-    </state>
-    <state x="328" y="118" key="#Project_Structure/605.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1603983682619" />
-    <state x="288" y="236" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1604393524119">
-      <screen x="0" y="23" width="1680" height="1027" />
-    </state>
-    <state x="288" y="236" key="#com.intellij.execution.impl.EditConfigurationsDialog/605.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1604393524119" />
-    <state x="437" y="506" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1604052734328">
-      <screen x="0" y="23" width="1680" height="1027" />
-    </state>
-    <state x="437" y="506" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/605.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1604052734328" />
-    <state width="1659" height="345" key="GridCell.Tab.0.bottom" timestamp="1604678641602">
-      <screen x="0" y="23" width="1680" height="1027" />
-    </state>
-    <state width="1659" height="261" key="GridCell.Tab.0.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1604612689659" />
-    <state width="1659" height="345" key="GridCell.Tab.0.bottom/605.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1604678641602" />
-    <state width="1659" height="345" key="GridCell.Tab.0.center" timestamp="1604678641601">
-      <screen x="0" y="23" width="1680" height="1027" />
-    </state>
-    <state width="1659" height="261" key="GridCell.Tab.0.center/0.23.1680.1027@0.23.1680.1027" timestamp="1604612689658" />
-    <state width="1659" height="345" key="GridCell.Tab.0.center/605.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1604678641601" />
-    <state width="1659" height="345" key="GridCell.Tab.0.left" timestamp="1604678641601">
-      <screen x="0" y="23" width="1680" height="1027" />
-    </state>
-    <state width="1659" height="261" key="GridCell.Tab.0.left/0.23.1680.1027@0.23.1680.1027" timestamp="1604612689658" />
-    <state width="1659" height="345" key="GridCell.Tab.0.left/605.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1604678641601" />
-    <state width="1659" height="345" key="GridCell.Tab.0.right" timestamp="1604678641602">
-      <screen x="0" y="23" width="1680" height="1027" />
-    </state>
-    <state width="1659" height="261" key="GridCell.Tab.0.right/0.23.1680.1027@0.23.1680.1027" timestamp="1604612689659" />
-    <state width="1659" height="345" key="GridCell.Tab.0.right/605.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1604678641602" />
-    <state width="1659" height="345" key="GridCell.Tab.1.bottom" timestamp="1604678641603">
-      <screen x="0" y="23" width="1680" height="1027" />
-    </state>
-    <state width="1659" height="345" key="GridCell.Tab.1.bottom/605.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1604678641603" />
-    <state width="1659" height="345" key="GridCell.Tab.1.center" timestamp="1604678641602">
-      <screen x="0" y="23" width="1680" height="1027" />
-    </state>
-    <state width="1659" height="345" key="GridCell.Tab.1.center/605.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1604678641602" />
-    <state width="1659" height="345" key="GridCell.Tab.1.left" timestamp="1604678641602">
-      <screen x="0" y="23" width="1680" height="1027" />
-    </state>
-    <state width="1659" height="345" key="GridCell.Tab.1.left/605.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1604678641602" />
-    <state width="1659" height="345" key="GridCell.Tab.1.right" timestamp="1604678641603">
-      <screen x="0" y="23" width="1680" height="1027" />
-    </state>
-    <state width="1659" height="345" key="GridCell.Tab.1.right/605.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1604678641603" />
-    <state x="312" y="134" key="SettingsEditor" timestamp="1604739872089">
-      <screen x="0" y="23" width="1680" height="1027" />
-    </state>
-    <state x="312" y="134" key="SettingsEditor/605.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1604739872089" />
-    <state x="521" y="469" key="com.intellij.jarRepository.RepositoryAttachDialog-SEARCH" timestamp="1604395416234">
-      <screen x="0" y="23" width="1680" height="1027" />
-    </state>
-    <state x="521" y="469" key="com.intellij.jarRepository.RepositoryAttachDialog-SEARCH/605.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1604395416234" />
-    <state x="361" y="295" width="925" height="617" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1604354378917">
-      <screen x="0" y="23" width="1680" height="1027" />
-    </state>
-    <state x="361" y="295" width="925" height="617" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/605.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1604354378917" />
-    <state x="541" y="169" width="598" height="735" key="find.popup" timestamp="1604139355632">
-      <screen x="0" y="23" width="1680" height="1027" />
-    </state>
-    <state x="541" y="169" width="598" height="735" key="find.popup/605.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1604139355632" />
-    <state x="192" y="197" key="new project wizard" timestamp="1604395107011">
-      <screen x="0" y="23" width="1680" height="1027" />
-    </state>
-    <state x="192" y="197" key="new project wizard/605.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1604395107011" />
-    <state x="489" y="307" key="search.everywhere.popup" timestamp="1604574858967">
-      <screen x="0" y="23" width="1680" height="1027" />
-    </state>
-    <state x="489" y="307" key="search.everywhere.popup/605.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1604574858967" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/server/src/ServerThread.java</url>
-          <line>173</line>
-          <option name="timeStamp" value="14" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/server/src/ServerThread.java</url>
-          <line>135</line>
-          <option name="timeStamp" value="20" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/server/src/ServerThread.java</url>
-          <line>157</line>
-          <option name="timeStamp" value="25" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/server/src/ServerThread.java</url>
-          <line>156</line>
-          <option name="timeStamp" value="26" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/shared/src/utils/MessageProtocol.java</url>
-          <line>85</line>
-          <option name="timeStamp" value="29" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/shared/src/utils/MessageProtocol.java</url>
-          <line>125</line>
-          <option name="timeStamp" value="30" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/client/src/ClientMain.java</url>
-          <line>33</line>
-          <option name="timeStamp" value="31" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/client/src/ClientMain.java</url>
-          <line>93</line>
-          <option name="timeStamp" value="33" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/server/src/ServerThread.java</url>
-          <line>128</line>
-          <option name="timeStamp" value="34" />
-        </line-breakpoint>
-        <breakpoint enabled="true" type="java-exception">
-          <properties class="java.lang.NullPointerException" package="java.lang" />
-          <option name="timeStamp" value="23" />
-        </breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
-    <pin-to-top-manager>
-      <pinned-members>
-        <PinnedItemInfo parentTag="java.lang.NullPointerException" memberName="stackTrace" />
-      </pinned-members>
-    </pin-to-top-manager>
-    <watches-manager>
-      <configuration name="Application">
-        <watch expression="from4ByteArray(from4ByteArray(2));" language="JAVA" />
-        <watch expression="currentAuthQuestion == &quot;&quot;" language="JAVA" />
-        <watch expression="currentAuthQuestion == null" language="JAVA" />
-        <watch expression="currentAuthQuestion.isEmpty()" language="JAVA" />
-        <watch expression="HashUtils.generateSHA256(receivedData)" language="JAVA" />
-        <watch expression="new String(receivedData).equals(&quot;/127.0.0.1:61446&quot;)" language="JAVA" />
-        <watch expression="new String(receivedData)" language="JAVA" />
-        <watch expression="new MessageProtocol(message)" language="JAVA" />
-        <watch expression="((byte) 10)." language="JAVA" />
-        <watch expression="ByteBuffer.allocate(4).putInt(10).array()" language="JAVA" />
-      </configuration>
-    </watches-manager>
+  <component name="WindowStateProjectService">
+    <state x="580" y="185" key="FileChooserDialogImpl" timestamp="1604748682635">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="580" y="185" key="FileChooserDialogImpl/0.0.1600.860@0.0.1600.860" timestamp="1604748682635" />
+    <state width="1557" height="363" key="GridCell.Tab.0.bottom" timestamp="1604750045866">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state width="1557" height="363" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1604750045866" />
+    <state width="1557" height="363" key="GridCell.Tab.0.center" timestamp="1604750045866">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state width="1557" height="363" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1604750045866" />
+    <state width="1557" height="363" key="GridCell.Tab.0.left" timestamp="1604750045866">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state width="1557" height="363" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1604750045866" />
+    <state width="1557" height="363" key="GridCell.Tab.0.right" timestamp="1604750045866">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state width="1557" height="363" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1604750045866" />
+    <state width="1557" height="225" key="GridCell.Tab.1.bottom" timestamp="1604750004769">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state width="1557" height="225" key="GridCell.Tab.1.bottom/0.0.1600.860@0.0.1600.860" timestamp="1604750004769" />
+    <state width="1557" height="225" key="GridCell.Tab.1.center" timestamp="1604750004769">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state width="1557" height="225" key="GridCell.Tab.1.center/0.0.1600.860@0.0.1600.860" timestamp="1604750004769" />
+    <state width="1557" height="225" key="GridCell.Tab.1.left" timestamp="1604750004769">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state width="1557" height="225" key="GridCell.Tab.1.left/0.0.1600.860@0.0.1600.860" timestamp="1604750004769" />
+    <state width="1557" height="225" key="GridCell.Tab.1.right" timestamp="1604750004769">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state width="1557" height="225" key="GridCell.Tab.1.right/0.0.1600.860@0.0.1600.860" timestamp="1604750004769" />
+    <state x="392" y="163" key="Vcs.Push.Dialog.v2" timestamp="1604755500887">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="392" y="163" key="Vcs.Push.Dialog.v2/0.0.1600.860@0.0.1600.860" timestamp="1604755500887" />
+    <state x="548" y="329" key="git4idea.ui.GitStashDialog" timestamp="1604740611045">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="548" y="329" key="git4idea.ui.GitStashDialog/0.0.1600.860@0.0.1600.860" timestamp="1604740611045" />
+    <state x="500" y="177" key="refactoring.ChangeSignatureDialog" timestamp="1604747173682">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="500" y="177" key="refactoring.ChangeSignatureDialog/0.0.1600.860@0.0.1600.860" timestamp="1604747173682" />
+    <state x="841" y="199" key="run.anything.popup" timestamp="1604744523812">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="841" y="199" key="run.anything.popup/0.0.1600.860@0.0.1600.860" timestamp="1604744523812" />
   </component>
 </project>
