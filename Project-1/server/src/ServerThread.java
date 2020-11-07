@@ -2,24 +2,26 @@ import auth.AuthSystem;
 import data.DataServer;
 import data.DataServerThread;
 import owm.OWMManager;
-import utils.FileManager;
-import utils.HashUtils;
-import utils.MessageProtocol;
-import utils.MessageType;
+import owm.RequestError;
+import utils.*;
 
 import java.io.*;
 import java.net.Socket;
+import java.io.IOException;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
 
 class ServerThread extends Thread
 {
     // Timeout time in millisecond
-    private final int TIME_OUT = 10000;
+    private final int TIME_OUT = 120000;
     protected DataInputStream is;
     protected DataOutputStream os;
     protected Socket s;
 
     private DataServer dataServer;
     private AuthSystem authManager;
+    private int authTryCount = 0;
 
     private MessageProtocol message;
     private String requestedFileLocation;
@@ -60,6 +62,8 @@ class ServerThread extends Thread
     {
         try
         {
+
+            s.setSoTimeout(TIME_OUT);
             is = new DataInputStream(s.getInputStream());
             os = new DataOutputStream(s.getOutputStream());
 
@@ -68,7 +72,6 @@ class ServerThread extends Thread
         {
             System.err.println("Server Thread. Run. IO error in server thread");
         }
-
         try
         {
             byte[] data = new byte[MessageProtocol.MAX_BYTE_SIZE];
@@ -76,10 +79,6 @@ class ServerThread extends Thread
             message = new MessageProtocol(data);
             while (message.payload.compareTo("QUIT") != 0)
             {
-                // TODO: IMPLEMENT AUTHENTICATION
-                // TODO: DATA COMMUNICATION
-                // TODO: TIMEOUT
-                // TODO: WHETHER API
 		        lines = " messaged : " + message.type + "| " + message.payload + " @thread#" + Thread.currentThread().getId();
                 System.out.println("Client " + s.getRemoteSocketAddress() + lines);
 
@@ -98,15 +97,19 @@ class ServerThread extends Thread
                         if (authManager.isAnswerCorrect(message.payload)) {
                             if (authManager.doesAuthGranted()) {
 
-                                token = authManager.generateToken(username);
+                                token = authManager.generateNewToken(username);
 
                                 sendMessageToClient(MessageType.AUTH_SUCCESS, token);
                             } else {
                                 sendMessageToClient(MessageType.AUTH_CHALLENGE, authManager.getCurrentQuestion());
                             }
                         } else {
-                            sendMessageToClient(MessageType.AUTH_FAIL, "Incorrect Answer\n");
-                            // TODO break connection
+                            if (authTryCount++ >= 2) {
+                                sendMessageToClient(MessageType.CONNECTION_CLOSED, "Too many incorrect answers");
+                                closeThreadAndSocket();
+                                continue;
+                            }
+                            sendMessageToClient(MessageType.AUTH_FAIL, "Incorrect Answer. Trial number: " + authTryCount);
                         }
 
                         break;
@@ -114,6 +117,7 @@ class ServerThread extends Thread
                         String clientID = message.payload;
                         DSThread = dataServer.getDSThread(clientID);
                         // TODO check TOKEN
+                        checkAuthToken();
                         if (DSThread != null) {
                             sendMessageToClient(MessageType.DATA_CONNECTION_ACCEPTED, "Connection found");
                             owmManager = new OWMManager();
@@ -124,26 +128,24 @@ class ServerThread extends Thread
                         break;
                     case API_REQUEST:
                         // TODO check TOKEN
-                        // succes, fail
-                        // TODO implement request types
-                        String[] params = message.params;
-                        // Check params
-                        requestedFileLocation = owmManager.getCityWeatherMap(params[0], params[1]);
-                        String fileType = FileManager.getFileType(requestedFileLocation);
-                        sendMessageToClient(MessageType.API_RESPONSE_SUCCESS, fileType);
+                        checkAuthToken();
+                        handleOWMAPIRequest(message);
                         break;
+                    case API_DATA_FAILED:
                     case API_REQUEST_DATA:
-//                        String clientID = message.payload;
-                        // TODO check TOKEN
-//                        String localDir = System.getProperty("user.dir");
-//                        File file = new File(localDir + "/server/downloads/833-clouds_new-image.png");
+                        /** check TOKEN */
+                        checkAuthToken();
+
                         byte[] fileByteArray = FileManager.fileToByte(requestedFileLocation);
 
                         String hashedData = HashUtils.generateSHA256(fileByteArray);
+                        /** For demo broken hash */
+                        if (username.equals("bedevi") && message.type.value != MessageType.API_DATA_FAILED.value) {
+                            hashedData = "ASDFASDFSADFADSFA";
+                        }
                         sendMessageToClient(MessageType.API_DATA_HASH, hashedData);
 
 
-                        //Stop timeout or increase
                         if (DSThread != null) {
                             System.out.println("Sending Data to client " + s.getRemoteSocketAddress());
                             // Send string or image
@@ -151,8 +153,7 @@ class ServerThread extends Thread
                         }
                         break;
                     case API_DATA_RECEIVED:
-                        // Start timeout
-                        sendMessageToClient(MessageType.UNDEFINED, "UNDEF");
+                        sendMessageToClient(MessageType.API_PROCESS_COMPLETE, "Process Complete");
                         break;
                     default:
                         sendMessageToClient(MessageType.AUTH_CHALLENGE, "Question");
@@ -162,6 +163,18 @@ class ServerThread extends Thread
                 message = new MessageProtocol(data);
             }
         }
+        catch (WrongTokenExpection e) {
+            System.out.println("Client sent wrong Token");
+        }
+        catch (SocketTimeoutException e)
+        {
+            System.err.println("Timeout");
+            try {
+                sendMessageToClient(MessageType.TIMEOUT, "Your session has expired.");
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        }
         catch (IOException e)
         {
             line = this.getName(); //reused String line for getting thread name
@@ -169,6 +182,7 @@ class ServerThread extends Thread
         }
         catch (NullPointerException e)
         {
+            e.printStackTrace();
             line = this.getName(); //reused String line for getting thread name
             System.err.println("Null Pointer in Server Thread. Run.Client " + line + " Closed");
             System.err.println(e);
@@ -176,6 +190,38 @@ class ServerThread extends Thread
         {
             closeThreadAndSocket();
         }//end finally
+    }
+
+    private void checkAuthToken() throws WrongTokenExpection, IOException{
+        if (!message.checkToken(token)) {
+            if (DSThread != null) {
+                DSThread.closeThreadAndSocket();
+            }
+            this.sendMessageToClient(MessageType.CONNECTION_CLOSED, "Wrong token GoodBye, do not come back!");
+            throw new WrongTokenExpection("Token does not match");
+        }
+    }
+    private void handleOWMAPIRequest(MessageProtocol message) throws IOException {
+        String errorReason = "Wrong request";
+
+        String[] params = message.params;
+        RequestType requestType = message.requestType;
+        if ( requestType == null || params == null || params.length == 0) {
+            errorReason = "Request type does not exists";
+            this.sendMessageToClient(MessageType.API_RESPONSE_FAIL, errorReason);
+            return;
+        }
+
+        try {
+            /** Send request to OWM reason*/
+            requestedFileLocation = owmManager.requestData(requestType, params);
+            String fileType = FileManager.getFileType(requestedFileLocation);
+            this.sendMessageToClient(MessageType.API_RESPONSE_SUCCESS, fileType);
+        } catch (RequestError requestError) {
+            errorReason = requestError.toString();
+            this.sendMessageToClient(MessageType.API_RESPONSE_FAIL, errorReason);
+        }
+
     }
 
     private void initializeServer() {
@@ -194,6 +240,7 @@ class ServerThread extends Thread
     }
 
     private void closeThreadAndSocket() {
+        System.out.println("Closing socket and thread");
         try
         {
             System.out.println("Closing the connection");
@@ -219,5 +266,20 @@ class ServerThread extends Thread
         {
             System.err.println("Socket Close Error");
         }
+        this.interrupt();
+    }
+}
+
+class WrongTokenExpection extends Exception {
+    String message;
+
+    /** Costum error for wrong requests
+     */
+    WrongTokenExpection(String message) {
+        this.message = message;
+    }
+
+    public String toString() {
+        return ("RequestError: " + message);
     }
 }

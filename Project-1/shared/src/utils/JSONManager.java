@@ -25,14 +25,14 @@ public class JSONManager {
             prettyJsonString = gson.toJson(je);
             System.out.println(prettyJsonString);
         } catch (ParseException e) {
-            e.printStackTrace();
+            System.out.println("Couldn't parse data.");
         }
 
         return prettyJsonString;
     }
 
     //takes file name of json file and prints it pretty
-    public void printJSON(String FileName) throws IOException {
+    public static void printJSON(String FileName) throws IOException {
 
         String s = "";
 

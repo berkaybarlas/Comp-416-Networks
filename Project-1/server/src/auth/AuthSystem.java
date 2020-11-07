@@ -3,6 +3,7 @@ package auth;
 import java.io.File;
 import java.util.*;
 import java.io.FileNotFoundException;
+import java.security.SecureRandom;
 
 public class AuthSystem
 {
@@ -62,6 +63,20 @@ public class AuthSystem
         return currentAuthQuestion;
     }
 
+
+    private static final SecureRandom secureRandom = new SecureRandom(); //threadsafe
+    private static final Base64.Encoder base64Encoder = Base64.getUrlEncoder(); //threadsafe
+
+    public static String generateNewToken(String username) {
+        byte[] randomBytes = new byte[6];
+        secureRandom.nextBytes(randomBytes);
+        String token = base64Encoder.encodeToString(randomBytes);
+        System.out.println("Generated token for " + username + ": " + token);
+        return token;
+    }
+
+
+
     public String generateToken(String username) {
         // 1.generate a random number
         // 2.concat it to username
@@ -75,6 +90,7 @@ public class AuthSystem
         }
 
         String token = hash + "";
+
 
         System.out.println("Generated token for " + username + ": " + token);
         return token;
