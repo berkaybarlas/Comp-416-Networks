@@ -4,7 +4,7 @@
 *.orig
 
 # For Project one
-Project-1/*/downloads
+Project-1/*/downloads/*
 
 
 # Created by git when using merge tools for conflicts
@@ -23,6 +23,7 @@ Project-1/*/downloads
 
 # User-specific stuff
 .idea/**/workspace.xml
+.idea/**/vcs.xml
 .idea/**/tasks.xml
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
@@ -67,7 +68,7 @@ cmake-build-*/
 *.iws
 
 # IntelliJ
-out/
+out/*
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
