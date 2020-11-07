@@ -1,23 +1,25 @@
 berkay
-q1?
-a1
-q2?
-a2
-q3?
-a3
+Why?
+because
+Why because?
+reasons
+Why reasons?
+sometimes
 
 reis
 
 tuğçe
-Q1?
-A1
-Q2?
-A2
+What is your favorite sushi?
+sushi
+What is your favorite city?
+Istanbul
+What is your spirit animal?
+AYI
 
 baran
-Q1000?
-A1000
-Q2000?
-A2000
-Q3000?
-A3000
+2 + 2 ?
+5
+Favorite animal?
+Cat
+Spirit animal?
+CAT

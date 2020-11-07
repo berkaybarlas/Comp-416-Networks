@@ -1,4 +1,5 @@
 import models.BaseClient;
+import utils.JSONManager;
 import utils.MessageProtocol;
 
 import java.io.*;
@@ -66,7 +67,7 @@ public class DataClient extends BaseClient {
         return data;
     }
 
-    public byte[] waitForFile(String fileName) {
+    public byte[] waitForFile(String fileName, String fileType) {
         byte [] fileByteArray  = new byte [MAX_FILE_SIZE];
         int bytesRead;
         int currentSize = 0;
@@ -74,13 +75,13 @@ public class DataClient extends BaseClient {
         {
             // receive file
 
-            String outputFileName = fileName;
+            String outputFileName = fileName + "." + fileType;
             String localDir = System.getProperty("user.dir");
             String fileLoc = localDir + CLIENT_DOWNLOAD_PATH + outputFileName;
 
             FileOutputStream fos = new FileOutputStream(fileLoc);
             BufferedOutputStream bos = new BufferedOutputStream(fos);
-            System.out.println("Wait for File...");
+            System.out.println("Wait for " + fileType + " File...");
             System.out.println("File receiving with size:  " + currentSize);
             // Read until transfer ends
             bytesRead = is.read(fileByteArray,0,fileByteArray.length);
@@ -93,6 +94,9 @@ public class DataClient extends BaseClient {
             bos.close();
 
             System.out.println("File recieved and saved to: " + fileLoc);
+            if (fileType.equals("JSON")) {
+                JSONManager.printJSON(fileLoc);
+            }
         }
         catch (IOException e)
         {

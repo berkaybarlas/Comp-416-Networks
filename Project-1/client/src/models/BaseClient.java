@@ -32,11 +32,13 @@ public class BaseClient {
             is.close();
             os.close();
             s.close();
-            System.out.println("ConnectionToServer. SendForAnswer. Connection Closed");
+            System.out.println("BaseClient: Connection Closed");
         }
         catch (IOException e)
         {
             e.printStackTrace();
+        } catch (NullPointerException e) {
+            //
         }
     }
 }
