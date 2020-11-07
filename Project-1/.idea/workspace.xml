@@ -102,7 +102,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="ClientMain-MessageProtocol parser eklendi.&#10;JSONManager - filelocation veriyorsun sana o file yazdırıyor.&#10;OWMMAnager - methodlar artık aldıkları cevabı json file yazıyorlar ve file location return ediyorlar, ayrıca history kısmında gün sayısınnı string olarak alıyor artık" />
-    <option name="LAST_COMMIT_MESSAGE" value="ClientMain-MessageProtocol parser eklendi.&#10;JSONManager - filelocation veriyorsun sana o file yazdırıyor.&#10;OWMMAnager - methodlar artık aldıkları cevabı json file yazıyorlar ve file location return ediyorlar, ayrıca history kısmında gün sayısınnı string olarak alıyor artık" />
+    <option name="LAST_COMMIT_MESSAGE" value="" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1029" y="-867" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1604776906954">
