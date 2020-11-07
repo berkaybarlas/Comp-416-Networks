@@ -122,6 +122,7 @@ public class OWMManager {
     */
     public String getCityWheatherHistory(Long cityIdLong, int day) throws IOException {
 
+        JSONObject days=new JSONObject();
         String returnVal = "";
 
         lon=map.get(cityIdLong)[0];
@@ -143,8 +144,9 @@ public class OWMManager {
         for (int i = 0; i < histDays; i++) {
             ut2 -= 86400;
             constructedURL = GLOBAL_URL + "data/2.5/onecall/timemachine?lat=" + lat + "&lon=" + lon + "&dt=" + ut2 + "&appid=" + APPID;
-            returnVal += ConnectToOWM(constructedURL);
+             days.put(++i, ConnectToOWM(constructedURL));
         }
+        returnVal=days.toJSONString();
         createJSON(returnVal, fileLocation);
         return fileLocation;
     }
