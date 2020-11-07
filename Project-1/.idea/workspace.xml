@@ -6,11 +6,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d8b018f2-47b4-4c5f-bf08-81b01d258683" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/ClientMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/ClientMain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/owm/OWMManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/owm/OWMManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/utils/JSONManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/utils/JSONManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,6 +67,14 @@
       <option name="presentableId" value="Default" />
       <updated>1604740970938</updated>
     </task>
+    <task id="LOCAL-00001" summary="ClientMain-MessageProtocol parser eklendi.&#10;JSONManager - filelocation veriyorsun sana o file yazdırıyor.&#10;OWMMAnager - methodlar artık aldıkları cevabı json file yazıyorlar ve file location return ediyorlar, ayrıca history kısmında gün sayısınnı string olarak alıyor artık">
+      <created>1604755776297</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1604755776297</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -84,7 +89,15 @@
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="ClientMain-MessageProtocol parser eklendi.&#10;JSONManager - filelocation veriyorsun sana o file yazdırıyor.&#10;OWMMAnager - methodlar artık aldıkları cevabı json file yazıyorlar ve file location return ediyorlar, ayrıca history kısmında gün sayısınnı string olarak alıyor artık" />
+    <option name="LAST_COMMIT_MESSAGE" value="ClientMain-MessageProtocol parser eklendi.&#10;JSONManager - filelocation veriyorsun sana o file yazdırıyor.&#10;OWMMAnager - methodlar artık aldıkları cevabı json file yazıyorlar ve file location return ediyorlar, ayrıca history kısmında gün sayısınnı string olarak alıyor artık" />
+  </component>
   <component name="WindowStateProjectService">
+    <state x="583" y="299" width="433" height="268" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1604756489009">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="583" y="299" width="433" height="268" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1600.860@0.0.1600.860" timestamp="1604756489009" />
     <state x="580" y="185" key="FileChooserDialogImpl" timestamp="1604748682635">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
@@ -121,10 +134,10 @@
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state width="1557" height="225" key="GridCell.Tab.1.right/0.0.1600.860@0.0.1600.860" timestamp="1604750004769" />
-    <state x="392" y="163" key="Vcs.Push.Dialog.v2" timestamp="1604755500887">
+    <state x="392" y="163" key="Vcs.Push.Dialog.v2" timestamp="1604755792942">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state x="392" y="163" key="Vcs.Push.Dialog.v2/0.0.1600.860@0.0.1600.860" timestamp="1604755500887" />
+    <state x="392" y="163" key="Vcs.Push.Dialog.v2/0.0.1600.860@0.0.1600.860" timestamp="1604755792942" />
     <state x="548" y="329" key="git4idea.ui.GitStashDialog" timestamp="1604740611045">
       <screen x="0" y="0" width="1600" height="860" />
     </state>

@@ -9,6 +9,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 
 
 public class OWMManager {
@@ -20,53 +21,19 @@ public class OWMManager {
     private String OWM_MAP_URL = "https://tile.openweathermap.org/map/";
     private String APPID = "78f6fce93c7671e98bd7e6d954ae3ad3";
 
-    private URL url;
-    private HttpURLConnection con;
-
     private String constructedURL;
     protected double lat;
     protected double lon;
 
+    HashMap<Object,double[]>map;
+
     public OWMManager() {
         initDownloadPath();
         // TODO create cityId location hashmap
+       map = createHashMap();
     }
 
-    //
-    //    @param takes the cityID as long
-    //    return: gives latitude and longitude
-    //
-    public void getLatLon(long cityID) {
 
-        //JSON parser object to parse read file
-        JSONParser parser = new JSONParser();
-
-        String let = null;
-        String localDir = System.getProperty("user.dir");
-        // TODO instead of doing create a hashmap <cityId, location>
-        try (FileReader reader = new FileReader(localDir + SERVER_RESOURCE_PATH + CITY_LIST)) {
-            //Read JSON fileJso
-            JSONArray obj = (JSONArray) parser.parse(reader);
-
-            for (int i = 0; i < obj.size(); i++) {
-                JSONObject obj1 = (JSONObject) obj.get(i);
-
-                if (obj1.get("id").equals(cityID)) {
-                    JSONObject co = (JSONObject) obj1.get("coord");
-                    lon = (double) co.get("lon");
-                    lat = (double) co.get("lat");
-                    break;
-                }
-            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-    }
 
     //
     //    function to get current, daily and minutely weather report
@@ -76,7 +43,10 @@ public class OWMManager {
     //
     public String getCityWheather(String cityId, String reqType) throws IOException {
         Long cityIdLong = Long.parseLong(cityId);
-        getLatLon(cityIdLong);
+
+        lon=map.get(cityIdLong)[0];
+        lat=map.get(cityIdLong)[1];
+
         String localDir = System.getProperty("user.dir");
 
         String FileName = String.format("%s-%s-%d.json", cityId, reqType, System.currentTimeMillis());
@@ -105,7 +75,11 @@ public class OWMManager {
         String returnVal = "";
         Long cityIdLong = Long.parseLong(cityId);
         int dayInt = Integer.parseInt(day);
-        getLatLon(cityIdLong);
+
+        lon=map.get(cityIdLong)[0];
+        lat=map.get(cityIdLong)[1];
+
+
         long ut2 = System.currentTimeMillis() / 1000L;
         int histDays = 5;
 
@@ -138,7 +112,10 @@ public class OWMManager {
     public String getCityWeatherMap(String cityId, String mapType) {
 
         Long cityIdLong = Long.parseLong(cityId);
-        getLatLon(cityIdLong);
+
+        lon=map.get(cityIdLong)[0];
+        lat=map.get(cityIdLong)[1];
+
         String localDir = System.getProperty("user.dir");
 
         String imageName = String.format("%s-%s-image-%d.png", cityId, mapType, System.currentTimeMillis());
@@ -233,5 +210,64 @@ public class OWMManager {
         }
     }
 
+    private HashMap createHashMap(){
+        JSONParser parser = new JSONParser();
+        HashMap<Object,double[]> map=new HashMap<Object,double[]>();
+        String localDir = System.getProperty("user.dir");
+
+        try (FileReader reader = new FileReader(localDir + SERVER_RESOURCE_PATH + CITY_LIST)) {
+            //Read JSON fileJson
+            JSONArray obj = (JSONArray) parser.parse(reader);
+
+            for (int i = 0; i < obj.size(); i++) {
+                JSONObject obj1 = (JSONObject) obj.get(i);
+
+                JSONObject co = (JSONObject) obj1.get("coord");
+                double[] array1=new double[]{(double) co.get("lon"), (double) co.get("lat")};
+                map.put(obj1.get("id"),array1);
+            }
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+//    public void getLatLon(long cityID) {
+//
+//        //JSON parser object to parse read file
+//        JSONParser parser = new JSONParser();
+//
+//        String let = null;
+//        String localDir = System.getProperty("user.dir");
+//        // TODO instead of doing create a hashmap <cityId, location>
+//        try (FileReader reader = new FileReader(localDir + SERVER_RESOURCE_PATH + CITY_LIST)) {
+//            //Read JSON fileJso
+//            JSONArray obj = (JSONArray) parser.parse(reader);
+//
+//            for (int i = 0; i < obj.size(); i++) {
+//                JSONObject obj1 = (JSONObject) obj.get(i);
+//
+//                if (obj1.get("id").equals(cityID)) {
+//                    JSONObject co = (JSONObject) obj1.get("coord");
+//                    lon = (double) co.get("lon");
+//                    lat = (double) co.get("lat");
+//                    break;
+//                }
+//            }
+//
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 }
