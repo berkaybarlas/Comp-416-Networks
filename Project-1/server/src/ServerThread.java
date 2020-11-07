@@ -9,11 +9,14 @@ import utils.MessageType;
 
 import java.io.*;
 import java.net.Socket;
+import java.io.IOException;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
 
 class ServerThread extends Thread
 {
     // Timeout time in millisecond
-    private final int TIME_OUT = 10000;
+    private final int TIME_OUT = 1000;
     protected DataInputStream is;
     protected DataOutputStream os;
     protected Socket s;
@@ -60,6 +63,8 @@ class ServerThread extends Thread
     {
         try
         {
+
+            s.setSoTimeout(TIME_OUT);
             is = new DataInputStream(s.getInputStream());
             os = new DataOutputStream(s.getOutputStream());
 
@@ -68,7 +73,6 @@ class ServerThread extends Thread
         {
             System.err.println("Server Thread. Run. IO error in server thread");
         }
-
         try
         {
             byte[] data = new byte[MessageProtocol.MAX_BYTE_SIZE];
@@ -98,7 +102,7 @@ class ServerThread extends Thread
                         if (authManager.isAnswerCorrect(message.payload)) {
                             if (authManager.doesAuthGranted()) {
 
-                                token = authManager.generateToken(username);
+                                token = authManager.generateNewToken(username);
 
                                 sendMessageToClient(MessageType.AUTH_SUCCESS, token);
                             } else {
@@ -160,6 +164,15 @@ class ServerThread extends Thread
 
                 is.read(data);
                 message = new MessageProtocol(data);
+            }
+        }
+        catch (SocketTimeoutException e)
+        {
+            System.err.println("Timeout");
+            try {
+                sendMessageToClient(MessageType.TIMEOUT, "Your session has expired.");
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
             }
         }
         catch (IOException e)
