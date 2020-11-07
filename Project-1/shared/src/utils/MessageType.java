@@ -22,6 +22,7 @@ public enum MessageType {
     API_DATA_RECEIVED(12),
     API_DATA_FAILED(13),
     API_PROCESS_COMPLETE(14),
+    CONNECTION_CLOSED(90),
     /** Connection closed due timeout */
     TIMEOUT(99);
 

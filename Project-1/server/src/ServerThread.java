@@ -21,7 +21,7 @@ class ServerThread extends Thread
 
     private DataServer dataServer;
     private AuthSystem authManager;
-    private int authtryCount = 0;
+    private int authTryCount = 0;
 
     private MessageProtocol message;
     private String requestedFileLocation;
@@ -104,12 +104,12 @@ class ServerThread extends Thread
                                 sendMessageToClient(MessageType.AUTH_CHALLENGE, authManager.getCurrentQuestion());
                             }
                         } else {
-                            authtryCount++;
-                            sendMessageToClient(MessageType.AUTH_FAIL, "Incorrect Answer\n");
-                            if (authtryCount > 2) {
+                            if (authTryCount++ >= 2) {
+                                sendMessageToClient(MessageType.CONNECTION_CLOSED, "Too many incorrect answers");
                                 closeThreadAndSocket();
+                                continue;
                             }
-                            // TODO break connection
+                            sendMessageToClient(MessageType.AUTH_FAIL, "Incorrect Answer. Trial number: " + authTryCount);
                         }
 
                         break;
@@ -133,12 +133,16 @@ class ServerThread extends Thread
                         break;
                     case API_DATA_FAILED:
                     case API_REQUEST_DATA:
-                        // TODO check TOKEN
+                        /** check TOKEN */
                         checkAuthToken();
 
                         byte[] fileByteArray = FileManager.fileToByte(requestedFileLocation);
 
                         String hashedData = HashUtils.generateSHA256(fileByteArray);
+                        /** For demo broken hash */
+                        if (username.equals("bedevi") && message.type.value != MessageType.API_DATA_FAILED.value) {
+                            hashedData = "ASDFASDFSADFADSFA";
+                        }
                         sendMessageToClient(MessageType.API_DATA_HASH, hashedData);
 
 
@@ -188,11 +192,12 @@ class ServerThread extends Thread
         }//end finally
     }
 
-    private void checkAuthToken() throws WrongTokenExpection {
+    private void checkAuthToken() throws WrongTokenExpection, IOException{
         if (!message.checkToken(token)) {
             if (DSThread != null) {
                 DSThread.closeThreadAndSocket();
             }
+            this.sendMessageToClient(MessageType.CONNECTION_CLOSED, "Wrong token GoodBye, do not come back!");
             throw new WrongTokenExpection("Token does not match");
         }
     }
@@ -202,7 +207,7 @@ class ServerThread extends Thread
         String[] params = message.params;
         RequestType requestType = message.requestType;
         if ( requestType == null || params == null || params.length == 0) {
-            errorReason = "Empty request";
+            errorReason = "Request type does not exists";
             this.sendMessageToClient(MessageType.API_RESPONSE_FAIL, errorReason);
             return;
         }
@@ -235,6 +240,7 @@ class ServerThread extends Thread
     }
 
     private void closeThreadAndSocket() {
+        System.out.println("Closing socket and thread");
         try
         {
             System.out.println("Closing the connection");
@@ -260,6 +266,7 @@ class ServerThread extends Thread
         {
             System.err.println("Socket Close Error");
         }
+        this.interrupt();
     }
 }
 

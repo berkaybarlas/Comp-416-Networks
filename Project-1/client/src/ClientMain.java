@@ -12,6 +12,7 @@ public class ClientMain
     protected static boolean authenticated = false;
     protected static boolean disconnected = false;
     protected static String token = "";
+    protected static String userName = "";
 
     public static void main(String args[])
     {
@@ -38,6 +39,10 @@ public class ClientMain
                 case AUTH_SUCCESS:
                     authenticated = true;
                     token = serverResponse.payload;
+                    /** For test purposes */
+                    if (userName.equals("hacker")) {
+                        token = "goodTry";
+                    }
                     // Start dataclient and send socket
                     dataClient = new DataClient();
                     dataClient.connect();
@@ -71,7 +76,7 @@ public class ClientMain
 
                     // Check hash
                     boolean isDataValid = HashUtils.checkSHA256Integrity(serverResponse.payload, receivedData);
-                    System.out.println("Does data correct: " + isDataValid);
+                    System.out.println("Does hash value match: " + isDataValid);
 
                     // Send received type message
                     if (isDataValid) {
@@ -81,10 +86,12 @@ public class ClientMain
                     }
 
                     break;
+                case CONNECTION_CLOSED:
                 case TIMEOUT:
                     // Timeout: close connection
                     disconnected = true;
                     continue;
+                case AUTH_FAIL:
                 default:
                     if (authenticated) {
                         System.out.println("Send another request to server: ");
@@ -92,6 +99,9 @@ public class ClientMain
                         message = generateAPIRequest(textMessage);
                     } else {
                         textMessage = scanner.nextLine();
+                        if (userName == "") {
+                            userName = textMessage;
+                        }
                         message = new MessageProtocol(MessageType.AUTH_REQUEST, textMessage);
                     }
             }
