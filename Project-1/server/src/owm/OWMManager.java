@@ -77,6 +77,11 @@ public class OWMManager {
     public String getCityWheather(String cityId, String reqType) throws IOException {
         Long cityIdLong = Long.parseLong(cityId);
         getLatLon(cityIdLong);
+        String localDir = System.getProperty("user.dir");
+
+        String FileName = String.format("%s-%s-%d.json", cityId, reqType, System.currentTimeMillis());
+        String FileLocation = localDir + SERVER_DOWNLOAD_PATH + FileName;
+
         if (reqType == "current") {
             constructedURL = GLOBAL_URL + "data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=daily,hourly,minutely,alerts&appid=" + APPID;
         } else if (reqType == "daily") {
@@ -84,7 +89,9 @@ public class OWMManager {
         } else if (reqType == "minutely") {
             constructedURL = GLOBAL_URL + "data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=daily,hourly,current,alerts&appid=" + APPID;
         }
-        return ConnectToOWM(constructedURL);
+        createJSON(ConnectToOWM(constructedURL), FileLocation);
+        return FileName;
+
     }
 
     //
@@ -93,17 +100,23 @@ public class OWMManager {
     //    @param number of days for historical weather report (max 5)
     //    returns historical weather report as String - most current to least current
     //
-    public String getCityWheatherHistory(String cityId, int day) throws IOException {
+    public String getCityWheatherHistory(String cityId, String day) throws IOException {
 
         String returnVal = "";
         Long cityIdLong = Long.parseLong(cityId);
+        int dayInt = Integer.parseInt(day);
         getLatLon(cityIdLong);
         long ut2 = System.currentTimeMillis() / 1000L;
-        int histDays=5;
+        int histDays = 5;
 
-        if(day<5)
-        {
-            histDays = day;
+        String localDir = System.getProperty("user.dir");
+
+        String FileName = String.format("%s-history-%s-%d.json", cityId, day, System.currentTimeMillis());
+        String FileLocation = localDir + SERVER_DOWNLOAD_PATH + FileName;
+
+
+        if (dayInt < 5) {
+            histDays = dayInt;
         }
 
         for (int i = 0; i < histDays; i++) {
@@ -111,11 +124,12 @@ public class OWMManager {
             constructedURL = GLOBAL_URL + "data/2.5/onecall/timemachine?lat=" + lat + "&lon=" + lon + "&dt=" + ut2 + "&appid=" + APPID;
             returnVal += ConnectToOWM(constructedURL);
         }
-        return returnVal;
+        createJSON(returnVal, FileLocation);
+        return FileName;
     }
 
     /**
-     *  function to get weather map as image
+     * function to get weather map as image
      *
      * @param cityId
      * @param mapType can take "clouds_new", "precipitation_new", "pressure_new", "wind_new", "temp_new"
@@ -127,7 +141,7 @@ public class OWMManager {
         getLatLon(cityIdLong);
         String localDir = System.getProperty("user.dir");
 
-        String imageName = String.format("%s-%s-image-%d.png",cityId, mapType,System.currentTimeMillis());
+        String imageName = String.format("%s-%s-image-%d.png", cityId, mapType, System.currentTimeMillis());
         String imageLocation = localDir + SERVER_DOWNLOAD_PATH + imageName;
 
         int x = (int) ((180 + lon) * 128 / 360);
@@ -202,8 +216,22 @@ public class OWMManager {
     private void initDownloadPath() {
         String localDir = System.getProperty("user.dir");
         File directory = new File(localDir + SERVER_DOWNLOAD_PATH);
-        if (! directory.exists()){
+        if (!directory.exists()) {
             directory.mkdirs();
         }
     }
+
+    //takes the weather information as String and writes is into a file
+    private void createJSON(String data, String FileName) {
+        try (FileWriter file = new FileWriter(FileName)) {
+
+            file.write(data);
+            file.flush();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

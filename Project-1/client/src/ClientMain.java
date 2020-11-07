@@ -5,6 +5,7 @@ import utils.MessageProtocol;
 import utils.MessageType;
 import utils.RequestType;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class ClientMain
@@ -110,11 +111,17 @@ public class ClientMain
 
     static private MessageProtocol generateAPIRequest(String textMessage) {
         // TODO implement parser
-        String[] params = new String[2];
-        params[0] = "833";
-        params[1] = "clouds_new";
-        return MessageProtocol.createAPIRequest(token, RequestType.MAP, params);
+
+        RequestType req;
+        String[] parsed = textMessage.split("\\s+");
+
+        req = RequestType.getRequestType(parsed[0]);
+
+        String[] params = Arrays.copyOfRange(parsed, 1, parsed.length);
+
+        return MessageProtocol.createAPIRequest(token, req, params);
     }
+
     static private void closeConnections() {
         dataClient.disconnect();
         connectionToServer.disconnect();
