@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="bc90f8f3-10fa-4f70-8040-a6f99f3819c9" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1jV0FWwIUwh19ho246z7zs3q5gn" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/client/src" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/client/src" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="utils" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/server/src/resources" />
+      <recent name="$PROJECT_DIR$/server/src/owm" />
+      <recent name="$PROJECT_DIR$/server/src/auth" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.ServerMain">
+    <configuration name="ClientMain" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ClientMain" />
+      <module name="client" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ServerMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ServerMain" />
+      <module name="server" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.ClientMain" />
+      <item itemvalue="Application.ServerMain" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.ClientMain" />
+        <item itemvalue="Application.ServerMain" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="bc90f8f3-10fa-4f70-8040-a6f99f3819c9" name="Default Changelist" comment="" />
+      <created>1603873848600</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1603873848600</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="328" y="118" key="#Project_Structure" timestamp="1603983682619">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="328" y="118" key="#Project_Structure/605.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1603983682619" />
+    <state x="288" y="236" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1604393524119">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="288" y="236" key="#com.intellij.execution.impl.EditConfigurationsDialog/605.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1604393524119" />
+    <state x="437" y="506" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1604052734328">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="437" y="506" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/605.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1604052734328" />
+    <state width="1659" height="345" key="GridCell.Tab.0.bottom" timestamp="1604678641602">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1659" height="261" key="GridCell.Tab.0.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1604612689659" />
+    <state width="1659" height="345" key="GridCell.Tab.0.bottom/605.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1604678641602" />
+    <state width="1659" height="345" key="GridCell.Tab.0.center" timestamp="1604678641601">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1659" height="261" key="GridCell.Tab.0.center/0.23.1680.1027@0.23.1680.1027" timestamp="1604612689658" />
+    <state width="1659" height="345" key="GridCell.Tab.0.center/605.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1604678641601" />
+    <state width="1659" height="345" key="GridCell.Tab.0.left" timestamp="1604678641601">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1659" height="261" key="GridCell.Tab.0.left/0.23.1680.1027@0.23.1680.1027" timestamp="1604612689658" />
+    <state width="1659" height="345" key="GridCell.Tab.0.left/605.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1604678641601" />
+    <state width="1659" height="345" key="GridCell.Tab.0.right" timestamp="1604678641602">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1659" height="261" key="GridCell.Tab.0.right/0.23.1680.1027@0.23.1680.1027" timestamp="1604612689659" />
+    <state width="1659" height="345" key="GridCell.Tab.0.right/605.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1604678641602" />
+    <state width="1659" height="345" key="GridCell.Tab.1.bottom" timestamp="1604678641603">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1659" height="345" key="GridCell.Tab.1.bottom/605.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1604678641603" />
+    <state width="1659" height="345" key="GridCell.Tab.1.center" timestamp="1604678641602">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1659" height="345" key="GridCell.Tab.1.center/605.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1604678641602" />
+    <state width="1659" height="345" key="GridCell.Tab.1.left" timestamp="1604678641602">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1659" height="345" key="GridCell.Tab.1.left/605.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1604678641602" />
+    <state width="1659" height="345" key="GridCell.Tab.1.right" timestamp="1604678641603">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1659" height="345" key="GridCell.Tab.1.right/605.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1604678641603" />
+    <state x="312" y="134" key="SettingsEditor" timestamp="1604739872089">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="312" y="134" key="SettingsEditor/605.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1604739872089" />
+    <state x="521" y="469" key="com.intellij.jarRepository.RepositoryAttachDialog-SEARCH" timestamp="1604395416234">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="521" y="469" key="com.intellij.jarRepository.RepositoryAttachDialog-SEARCH/605.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1604395416234" />
+    <state x="361" y="295" width="925" height="617" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1604354378917">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="361" y="295" width="925" height="617" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/605.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1604354378917" />
+    <state x="541" y="169" width="598" height="735" key="find.popup" timestamp="1604139355632">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="541" y="169" width="598" height="735" key="find.popup/605.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1604139355632" />
+    <state x="192" y="197" key="new project wizard" timestamp="1604395107011">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="192" y="197" key="new project wizard/605.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1604395107011" />
+    <state x="489" y="307" key="search.everywhere.popup" timestamp="1604574858967">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="489" y="307" key="search.everywhere.popup/605.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1604574858967" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/src/ServerThread.java</url>
+          <line>173</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/src/ServerThread.java</url>
+          <line>135</line>
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/src/ServerThread.java</url>
+          <line>157</line>
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/src/ServerThread.java</url>
+          <line>156</line>
+          <option name="timeStamp" value="26" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/shared/src/utils/MessageProtocol.java</url>
+          <line>85</line>
+          <option name="timeStamp" value="29" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/shared/src/utils/MessageProtocol.java</url>
+          <line>125</line>
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/client/src/ClientMain.java</url>
+          <line>33</line>
+          <option name="timeStamp" value="31" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/client/src/ClientMain.java</url>
+          <line>93</line>
+          <option name="timeStamp" value="33" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/src/ServerThread.java</url>
+          <line>128</line>
+          <option name="timeStamp" value="34" />
+        </line-breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NullPointerException" package="java.lang" />
+          <option name="timeStamp" value="23" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="java.lang.NullPointerException" memberName="stackTrace" />
+      </pinned-members>
+    </pin-to-top-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="from4ByteArray(from4ByteArray(2));" language="JAVA" />
+        <watch expression="currentAuthQuestion == &quot;&quot;" language="JAVA" />
+        <watch expression="currentAuthQuestion == null" language="JAVA" />
+        <watch expression="currentAuthQuestion.isEmpty()" language="JAVA" />
+        <watch expression="HashUtils.generateSHA256(receivedData)" language="JAVA" />
+        <watch expression="new String(receivedData).equals(&quot;/127.0.0.1:61446&quot;)" language="JAVA" />
+        <watch expression="new String(receivedData)" language="JAVA" />
+        <watch expression="new MessageProtocol(message)" language="JAVA" />
+        <watch expression="((byte) 10)." language="JAVA" />
+        <watch expression="ByteBuffer.allocate(4).putInt(10).array()" language="JAVA" />
+      </configuration>
+    </watches-manager>
+  </component>
+</project>
