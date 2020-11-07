@@ -141,7 +141,7 @@ public class OWMManager {
             histDays = day;
         }
 
-        for (int i = 0; i < histDays; i++) {
+        for (int i = 0; i < histDays;) {
             ut2 -= 86400;
             constructedURL = GLOBAL_URL + "data/2.5/onecall/timemachine?lat=" + lat + "&lon=" + lon + "&dt=" + ut2 + "&appid=" + APPID;
              days.put(++i, ConnectToOWM(constructedURL));
