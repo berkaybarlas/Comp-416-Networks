@@ -21,19 +21,19 @@ public class OWMManager {
     private String OWM_MAP_URL = "https://tile.openweathermap.org/map/";
     private String APPID = "78f6fce93c7671e98bd7e6d954ae3ad3";
 
-    private URL url;
-    private HttpURLConnection con;
-
     private String constructedURL;
     protected double lat;
     protected double lon;
 
+    HashMap<Object,double[]>map;
+
     public OWMManager() {
         initDownloadPath();
         // TODO create cityId location hashmap
+       map = createHashMap();
     }
 
-    HashMap<Object,double[]>map = createHashMap();
+
 
     //
     //    function to get current, daily and minutely weather report
