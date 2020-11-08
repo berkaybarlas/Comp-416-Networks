@@ -116,7 +116,7 @@ class ServerThread extends Thread
                     case DATA_CONNECTION_REQUEST:
                         String clientID = message.payload;
                         DSThread = dataServer.getDSThread(clientID);
-                        // TODO check TOKEN
+                        /** check TOKEN */
                         checkAuthToken();
                         if (DSThread != null) {
                             sendMessageToClient(MessageType.DATA_CONNECTION_ACCEPTED, "Connection found");
@@ -127,7 +127,7 @@ class ServerThread extends Thread
 
                         break;
                     case API_REQUEST:
-                        // TODO check TOKEN
+                        /** check TOKEN */
                         checkAuthToken();
                         handleOWMAPIRequest(message);
                         break;
