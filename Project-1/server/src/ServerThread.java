@@ -163,7 +163,7 @@ class ServerThread extends Thread
                 message = new MessageProtocol(data);
             }
         }
-        catch (WrongTokenExpection e) {
+        catch (WrongTokenException e) {
             System.out.println("Client sent wrong Token");
         }
         catch (SocketTimeoutException e)
@@ -192,13 +192,13 @@ class ServerThread extends Thread
         }//end finally
     }
 
-    private void checkAuthToken() throws WrongTokenExpection, IOException{
+    private void checkAuthToken() throws WrongTokenException, IOException{
         if (!message.checkToken(token)) {
             if (DSThread != null) {
                 DSThread.closeThreadAndSocket();
             }
             this.sendMessageToClient(MessageType.CONNECTION_CLOSED, "Wrong token GoodBye, do not come back!");
-            throw new WrongTokenExpection("Token does not match");
+            throw new WrongTokenException("Token does not match");
         }
     }
     private void handleOWMAPIRequest(MessageProtocol message) throws IOException {
@@ -270,12 +270,13 @@ class ServerThread extends Thread
     }
 }
 
-class WrongTokenExpection extends Exception {
+class WrongTokenException extends Exception {
     String message;
 
-    /** Costum error for wrong requests
+    /**
+     * Custom error for wrong requests
      */
-    WrongTokenExpection(String message) {
+    WrongTokenException(String message) {
         this.message = message;
     }
 
