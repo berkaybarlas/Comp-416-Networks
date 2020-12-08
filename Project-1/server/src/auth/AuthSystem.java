@@ -76,7 +76,6 @@ public class AuthSystem
     }
 
 
-
     public String generateToken(String username) {
         // 1.generate a random number
         // 2.concat it to username
