@@ -40,13 +40,14 @@ public class Transport {
         List<Packet> packets = new ArrayList<>();
         int lastSequence = -1;
         while(true) {
-            Packet p = receivePacket(10000);
+            Packet p = receivePacket(15000);
             // Stop receiving either on timeout or when we received the last message packet.
             if(p.timedOut) break;
 
             sendAck(p.sequenceNumber % 2, p.lastPacket);
 
             if(lastSequence == p.sequenceNumber) continue;
+
             lastSequence = p.sequenceNumber;
             packets.add(p);
 
@@ -68,7 +69,7 @@ public class Transport {
         int currentPacket = 0;
         while (currentPacket < packets.length) {
             sendMsgPacket(currentPacket % 2, currentPacket == packets.length-1, packets[currentPacket]);
-            Packet p = receivePacket(1000);
+            Packet p = receivePacket(500);
             if(!p.timedOut) {
                 currentPacket++;
             }

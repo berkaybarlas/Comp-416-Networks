@@ -29,6 +29,7 @@ import java.security.cert.*;
  */
 public class SSLConnectToServer
 {
+    private String CERTS_PATH = "/Project-2-Codes/ssl-client/certs/";
     /*
     Name of key store file
      */
@@ -58,7 +59,8 @@ public class SSLConnectToServer
 		CertificateFactory cf = CertificateFactory.getInstance("X.509");
 
 		// Load the certificate
-		InputStream caInput = new BufferedInputStream(new FileInputStream(new File("server_crt.crt")));
+        String localDir = System.getProperty("user.dir");
+		InputStream caInput = new BufferedInputStream(new FileInputStream(new File(localDir + CERTS_PATH+ "server_crt.crt")));
 
 		Certificate ca;
 		try {

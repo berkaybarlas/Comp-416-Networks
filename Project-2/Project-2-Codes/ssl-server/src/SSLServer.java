@@ -17,8 +17,11 @@ import java.security.KeyStore;
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-public class cxzvbSSLServer extends Thread
+public class SSLServer extends Thread
 {
+    public final static int DEFAULT_PORT = 54517;
+    private String SRC_PATH = "/Project-2-Codes/ssl-server/src/";
+
     private final String KS_FILE = "keystore.jks";
     private final String KS_PASS = "storepass";
     private final String SK_PASS = "keypass";
@@ -32,7 +35,7 @@ public class cxzvbSSLServer extends Thread
 
         try
         {
-
+            System.out.println("SSL server started");
             //serverControlPanel = new ServerControlPanel("hello server!");
 
 
@@ -46,7 +49,8 @@ public class cxzvbSSLServer extends Thread
              */
             char ksPass[] = KS_PASS.toCharArray();
             KeyStore ks = KeyStore.getInstance("JKS");
-            ks.load(new FileInputStream(KS_FILE), ksPass);
+            String localDir = System.getProperty("user.dir");
+            ks.load(new FileInputStream(localDir + SRC_PATH + KS_FILE), ksPass);
             KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
             kmf.init(ks, SK_PASS.toCharArray());
             sc.init(kmf.getKeyManagers(), null, null);
@@ -59,16 +63,19 @@ public class cxzvbSSLServer extends Thread
             sslSocket = (SSLServerSocket) sslFactory.createServerSocket(port);
 
             System.out.println("SSL server is up and running on port " + port);
-            while (true)
-            {
-                ListenAndAccept();
-            }
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
 
+    }
+
+    public void run () {
+        while (true)
+        {
+            ListenAndAccept();
+        }
     }
 
     /*

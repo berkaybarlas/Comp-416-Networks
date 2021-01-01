@@ -17,7 +17,13 @@ public class Main
 {
     public static void main(String args[])
     {
-        SSLServer s = new SSLServer(4444);
+        SSLServer sslServer = new SSLServer(SSLServer.DEFAULT_PORT);
+        Thread dataServerMainThread = new Thread(sslServer);
+
+        dataServerMainThread.start();
+
+        Server server = new Server(Server.DEFAULT_SERVER_PORT);
+
     }
 
 }

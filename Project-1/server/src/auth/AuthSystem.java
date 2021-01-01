@@ -35,15 +35,6 @@ public class AuthSystem
         return userQuestionMap.get(currentUser).get(prevQuestion);
     }
 
-//    public Boolean isAnswerCorrect(String question, String answer) {
-//        if (question == "" || question == null || question == SUCCESS) {
-//            return true;
-//        }
-//        return getAnswer(question).equals(answer);
-//    }
-
-    //
-
     public Boolean isAnswerCorrect(String answer) {
         boolean isCorrect = false;
         if (currentAuthQuestion.isEmpty() || currentAuthQuestion == SUCCESS) {

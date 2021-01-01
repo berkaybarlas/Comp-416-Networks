@@ -21,7 +21,7 @@ import java.io.*;
 public class SSLServerThread extends Thread
 {
 
-    private final String SERVER_REPLY = "Hello Client";
+    private final String SERVER_REPLY = "bbarlas1554512";
     private SSLSocket sslSocket;
     private String line = new String();
     private BufferedReader is;
@@ -47,11 +47,29 @@ public class SSLServerThread extends Thread
         try
         {
             line = is.readLine();
-            os.write(SERVER_REPLY);
+
+            int index = 0;
+
+
+            index = Integer.parseInt(line);
+
+
+            // Create payload, / is the end
+            String payload = "/";
+
+            if (index < SERVER_REPLY.length()) {
+                payload = "" + SERVER_REPLY.charAt(index);
+            }
+
+
+            os.write(payload);
             os.flush();
             System.out.println("Client " + sslSocket.getRemoteSocketAddress() + " sent : " + line);
 
 
+
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
         }
         catch (IOException e)
         {
