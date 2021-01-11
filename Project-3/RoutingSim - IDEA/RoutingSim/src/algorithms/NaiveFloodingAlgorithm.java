@@ -10,6 +10,7 @@ public class NaiveFloodingAlgorithm extends Algorithm {
     @Override
     public List<NeighborInfo> selectNeighbors(String origin, String destination, String previousHop,
                                               List<NeighborInfo> neighbors) {
+
         // Find the list of neighbors, excluding the previous hop.
         List<NeighborInfo> chosen = neighbors.stream()
                 // Make sure that we do not route back to the previous hop.
