@@ -13,8 +13,9 @@ public class NaiveMinimumCostAlgorithm extends Algorithm {
         // Find the list of neighbors, excluding the previous hop.
         List<NeighborInfo> chosen = Arrays.asList(neighbors.stream()
                 // Make sure that we do not route back to the previous hop.
-                .filter(n -> !n.address.equals(previousHop)).min((i,j)-> Integer.compare(i.cost, j.cost))
-                .orElseThrow(NoSuchElementException::new)) ;
+                .filter(n -> !n.address.equals(previousHop))
+                .min((i,j)-> Integer.compare(i.cost, j.cost))
+                .orElseThrow(NoSuchElementException::new));
         // Return the chosen nodes.
         return chosen;
     }

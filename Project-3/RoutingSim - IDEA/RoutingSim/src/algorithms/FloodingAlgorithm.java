@@ -13,20 +13,26 @@ import java.util.stream.Collectors;
 public class FloodingAlgorithm extends Algorithm {
 
     // IMPORTANT: You can maintain a state, e.g., a flag.
-    HashSet<String> visited = new HashSet<>();
+    boolean visited = false;
 
     @Override
     public List<NeighborInfo> selectNeighbors(String origin, String destination, String previousHop,
                                               List<NeighborInfo> neighbors) {
         // Find the list of neighbors, excluding the previous hop.
-        visited.add(previousHop);
+        if (visited) {
+            return new ArrayList();
+        }
+        visited = true;
+
         List<NeighborInfo> chosen = neighbors.stream()
                 // Make sure that we do not route back to the previous hop.
-                .filter(n -> !visited.contains(n.address))
+                .filter(n -> !n.address.equals(previousHop))
                 .collect(Collectors.toList());
+
         // Return the chosen nodes.
         return chosen;
     }
+
     @Override
     public Algorithm copy() {
         return new FloodingAlgorithm();

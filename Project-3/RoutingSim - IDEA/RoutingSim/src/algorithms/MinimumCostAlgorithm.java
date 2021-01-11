@@ -23,16 +23,18 @@ public class MinimumCostAlgorithm extends Algorithm {
             return Arrays.asList(neighbors.get(selectedIndex));
         }
 
-        // Find the list of neighbors, excluding the previous hop.
-        List<NeighborInfo> chosen = Arrays.asList(neighbors.stream()
-                // Make sure that we do not route back to the previous hop.
-                .filter(n -> !n.address.equals(previousHop)).min((i,j)-> Integer.compare(i.cost, j.cost))
-                .orElseThrow(NoSuchElementException::new)) ;
-
         visited.add(previousHop);
+        // Find the list of neighbors, excluding the previous hop.
+        NeighborInfo chosen = neighbors.stream()
+                // Make sure that we do not route back to the previous hop.
+                .filter(n -> !visited.contains(n.address))
+                .min(Comparator.comparingInt(i -> i.cost))
+                .orElseThrow(NoSuchElementException::new);
+
+        visited.add(chosen.address);
 
         // Return the chosen nodes.
-        return chosen;
+        return Arrays.asList(chosen);
     }
 
     @Override
