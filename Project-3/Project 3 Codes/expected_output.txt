@@ -1,0 +1,69 @@
+Simulating NaiveFlooding with topology topologies/topology1.txt
+Protocol converged? Yes!
+Destination reached? Yes!
+Success? Yes!
+Results:
+	Path = 1 -> 3 -> 4
+	Path length = 3
+	Path cost = 9
+	Total communication cost = 22
+
+Simulating NaiveFlooding with topology topologies/topology2.txt
+Protocol converged? No.
+Destination reached? Yes!
+Success? No.
+
+Simulating Flooding with topology topologies/topology1.txt
+Protocol converged? Yes!
+Destination reached? Yes!
+Success? Yes!
+Results:
+	Path = 1 -> 3 -> 4
+	Path length = 3
+	Path cost = 9
+	Total communication cost = 22
+
+Simulating Flooding with topology topologies/topology2.txt
+Protocol converged? Yes!
+Destination reached? Yes!
+Success? Yes!
+Results:
+	Path = 1 -> 3 -> 4
+	Path length = 3
+	Path cost = 9
+	Total communication cost = 28
+
+Simulating NaiveMinimumCost with topology topologies/topology1.txt
+Protocol converged? Yes!
+Destination reached? Yes!
+Success? Yes!
+Results:
+	Path = 1 -> 3 -> 4
+	Path length = 3
+	Path cost = 9
+	Total communication cost = 9
+
+Simulating NaiveMinimumCost with topology topologies/topology2.txt
+Protocol converged? No.
+Destination reached? No.
+Success? No.
+
+Simulating MinimumCost with topology topologies/topology1.txt
+Protocol converged? Yes!
+Destination reached? Yes!
+Success? Yes!
+Results:
+	Path = 1 -> 3 -> 4
+	Path length = 3
+	Path cost = 9
+	Total communication cost = 9
+
+Simulating MinimumCost with topology topologies/topology2.txt
+Protocol converged? Yes!
+Destination reached? Yes!
+Success? Yes!
+Results:
+	Path = 1 -> 3 -> 2 -> 1 -> 2 -> 4
+	Path length = 6
+	Path cost = 21
+	Total communication cost = 21
